@@ -16,6 +16,7 @@
 .gravity/
   IMPLEMENTATION_PLAN.md    # what/next — slice queue, locked decisions, domain status spine
   filing/  SPEC.md          # THE FILING CONTRACT — areas, decision procedure, lifecycle & budget
+  waypoint/  SPEC.md        # curated-directory manifests + the cheap index — find deep dirs without scanning payload
 ```
 
 No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain `ARCHITECTURE.html` (nothing outgrows a file map). Recognized only when present.
@@ -30,6 +31,7 @@ No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain 
 | A skill's procedure (not filing rules — those live in the SPEC) | `skills/<name>/SKILL.md` |
 | The dashboard's panels or look | `skills/orbit-dashboard/generate.py` (HTML+CSS inline; keep zero external resources) |
 | A per-area browsing card (`NN-*/README.md`) | It's a *generated artifact* — edit `.gravity/filing/SPEC.md` (areas table), then `python skills/area-architect/generate_cards.py .`; never hand-edit a card |
+| Finding a curated deep directory ("where is X?"), or the manifest/index format | `.gravity/waypoint/SPEC.md` (the `locate` skill executes it; never `ls` a big dir to find things) |
 | What's next / slice queue | `.gravity/IMPLEMENTATION_PLAN.md` |
 
 New feature? Run the domain gate in `.gravity/IMPLEMENTATION_PLAN.md`'s queue rules first — most features are slices under `filing` (or future domains), not new domains.
@@ -44,7 +46,7 @@ New feature? Run the domain gate in `.gravity/IMPLEMENTATION_PLAN.md`'s queue ru
 ## Stack
 
 - **No runtime app.** Markdown + directory conventions + agent `SKILL.md`s.
-- **Python 3.x (stdlib only)** for the mechanical gates (`tests/check_structure.py`, `tests/check_triage.py`, `tests/check_scout.py`) — no venv needed; they run on the work instance too.
+- **Python 3.x (stdlib only)** for the mechanical gates (`tests/check_structure.py`, `tests/check_triage.py`, `tests/check_scout.py`, `tests/check_waypoint.py`) — no venv needed; they run on the work instance too.
 - Skills are astra-shaped (folder with `SKILL.md`) so they can be published to the astra registry later.
 
 ## Run
@@ -65,6 +67,8 @@ python tests/check_triage.py <scratch>
 # intake gate: copy the fake source roots, scout them per file-scout, verify mechanically
 cp -r tests/fixture-sources <scratch>/sources  # + empty 00-inbox/
 python tests/check_scout.py <scratch>
+# waypoint gate: validate curated-directory manifests on the fixture tree
+python tests/check_waypoint.py tests/fixture-waypoint
 ```
 
 All three are walls, not eyeballing. The filing *rules themselves* stay `[review]` (only you can say where your files belong).
@@ -87,9 +91,9 @@ All three are walls, not eyeballing. The filing *rules themselves* stay `[review
 ## Entry Points
 
 - `.gravity/filing/SPEC.md` — **the architectural seam**: the one contract that both the human filing habit and every sorting/restructuring skill derive from. Change filing behavior here, never inside a skill.
-- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `area-architect` restructures, `orbit-dashboard` monitors). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
+- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `area-architect` restructures, `orbit-dashboard` monitors, `locate` finds curated dirs cheaply). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
 - `00-inbox/ … 50-policy/` — the six areas (meanings in the SPEC).
-- `tests/` — fixture inbox + fixture source roots + the three mechanical checkers (structure, triage, scout — the gate).
+- `tests/` — fixture inbox + fixture source roots + fixture waypoint tree + the four mechanical checkers (structure, triage, scout, waypoint — the gate).
 
 ## Git
 

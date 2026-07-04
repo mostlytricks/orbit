@@ -1,0 +1,1 @@
+FIXTURE payload sample 01 — one of many files a real curated dir would hold.

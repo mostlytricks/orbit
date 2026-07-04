@@ -12,6 +12,7 @@ Shipped 2026-07-04: the **triage loop** (tree + contract + `file-triage` + fixtu
 | Domain | Status | Docs |
 |---|---|---|
 | filing | ◑ building (contract + three skills — scout/triage/architect — + three walls; intake fresh) | `filing/SPEC.md` |
+| waypoint | ◑ building (manifest schema + `build_index.py` generator + `locate` skill + `check_waypoint` wall; per-dir dashboard pending) | `waypoint/SPEC.md` |
 
 ## Slice queue
 
@@ -25,10 +26,12 @@ Rolling lanes (growing project — skills accrete, phases would be fake). Rules:
 | now | OPEN: user picks the next slice (candidates below) | ○ |
 | next | `daily-note` skill — templated daily worklog auto-placed in `10-daily/YYYY/MM/` (likely mints a `notes` domain) | ○ |
 | later | `weekly-report` skill — assemble the week's report from daily notes | ○ |
+| later | **waypoint**: per-directory dashboard view (select box in `orbit-dashboard`, or a sub-page) — the "feature 1" slice; `build_index.py` already computes the counts | ○ |
+| later | **waypoint**: dashboard flags drift (an un-manifested giant dir; declared `file_types` vs actual) as junk-hunt findings | ○ |
 | later | Publish orbit skills to astra (`astra-publish` loop — dogfood both projects) | ○ |
 | later | Deep-archive procedure for old years (see SPEC OPEN) | ○ |
 
-Shipped (details in git history): **process-architect skill** — interview-to-define + JSON→self-contained-HTML generator for process guidelines (approval chains / handoff pipelines), health rubric in the SKILL, `*.process.html` gitignored like `dashboard.html`; shipped with two fake/meta sample definitions (`purchase-order`, `orbit-file-fix`) (2026-07-05) · **triage loop** — tree + contract + file-triage skill + fixture gate (2026-07-04) · **restructure loop** — `.gravity/` adoption + `filing/SPEC.md` (tagged rules, lifecycle & budget) + area-architect skill + structure lint (2026-07-04) · **dashboard** — orbit-dashboard skill, one self-contained HTML page, verified on empty + populated trees (2026-07-04) · **dashboard v2 (junk hunt)** — pro redesign (KPI strip, sticky header, SVG type-donut) + cleanup candidates (>5 MB & 180d+ stale, size×staleness rank), md5 exact-duplicate groups + dupe-waste KPI, age profile; hunting guide in the SKILL; planted-junk detection verified (2026-07-04) · **intake loop** — `file-scout` skill + SPEC "Intake" section (named sources, dump=move/live=copy, dedup, provenance) + `check_scout.py` gate on fake source roots; PASS + FAIL-on-violation (junk ingested, live moved, unrecorded) verified (2026-07-04) · **area browsing cards** — `skills/area-architect/generate_cards.py` emits one `NN-*/README.md` per area *from the SPEC areas table* (single source, zero drift), gitignored like `dashboard.html`; regeneration wired into the area-architect restructure procedure (2026-07-05).
+Shipped (details in git history): **process-architect skill** — interview-to-define + JSON→self-contained-HTML generator for process guidelines (approval chains / handoff pipelines), health rubric in the SKILL, `*.process.html` gitignored like `dashboard.html`; shipped with two fake/meta sample definitions (`purchase-order`, `orbit-file-fix`) (2026-07-05) · **triage loop** — tree + contract + file-triage skill + fixture gate (2026-07-04) · **restructure loop** — `.gravity/` adoption + `filing/SPEC.md` (tagged rules, lifecycle & budget) + area-architect skill + structure lint (2026-07-04) · **dashboard** — orbit-dashboard skill, one self-contained HTML page, verified on empty + populated trees (2026-07-04) · **dashboard v2 (junk hunt)** — pro redesign (KPI strip, sticky header, SVG type-donut) + cleanup candidates (>5 MB & 180d+ stale, size×staleness rank), md5 exact-duplicate groups + dupe-waste KPI, age profile; hunting guide in the SKILL; planted-junk detection verified (2026-07-04) · **intake loop** — `file-scout` skill + SPEC "Intake" section (named sources, dump=move/live=copy, dedup, provenance) + `check_scout.py` gate on fake source roots; PASS + FAIL-on-violation (junk ingested, live moved, unrecorded) verified (2026-07-04) · **area browsing cards** — `skills/area-architect/generate_cards.py` emits one `NN-*/README.md` per area *from the SPEC areas table* (single source, zero drift), gitignored like `dashboard.html`; regeneration wired into the area-architect restructure procedure (2026-07-05) · **waypoint domain (birth)** — `.gravity/waypoint/SPEC.md` (curated-directory manifests + the read-index-never-scan-payload invariant), `skills/locate/` with `build_index.py` (scan every `_waypoint.md` → one root `waypoint-index.md`), `tests/check_waypoint.py` + `tests/fixture-waypoint/` wall; PASS on 2-manifest fixture + FAIL-on-missing-purpose verified; index gitignored (2026-07-05).
 
 ## Locked decisions
 
@@ -57,6 +60,7 @@ python tests/check_triage.py <scratch>
 cp -r tests/fixture-sources <scratch>/sources  # + empty 00-inbox/
 # run the file-scout skill on <scratch> (desktop+downloads=dump, onedrive-sync=live)
 python tests/check_scout.py <scratch>
+python tests/check_waypoint.py tests/fixture-waypoint   # waypoint: curated-directory manifest schema
 ```
 
 Last green: 2026-07-04 (all three checkers PASS; each verified to FAIL on planted violations).

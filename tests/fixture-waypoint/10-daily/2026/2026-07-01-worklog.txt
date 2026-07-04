@@ -1,0 +1,2 @@
+FIXTURE — an un-manifested directory. No _waypoint.md here, so it is not a waypoint and
+the index ignores it. Proves the index only lists directories that opted in.

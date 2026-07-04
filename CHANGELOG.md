@@ -7,6 +7,15 @@ is separate and lives in `CLAUDE.md`.
 
 ## [Unreleased]
 
+### Added
+- **`waypoint` domain — curated-directory manifests & a cheap index.** A deep directory
+  opts into being findable by holding a `_waypoint.md` manifest (YAML: purpose, keywords,
+  file types); `skills/locate/build_index.py` scans every manifest and writes one root
+  `waypoint-index.md`. The `locate` skill answers "where is X?" from that index alone —
+  **never listing or reading payload**, which is the token-bomb the domain exists to
+  prevent. Walled by `tests/check_waypoint.py` + `tests/fixture-waypoint/`. Contract in
+  `.gravity/waypoint/SPEC.md`; `waypoint-index.md` is a gitignored generated artifact.
+
 ## [0.3.0] - 2026-07-05
 
 ### Added
