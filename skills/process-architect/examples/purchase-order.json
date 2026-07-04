@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "title": "Purchase Order Approval",
+    "eyebrow": "Standard Operating Procedure - Procurement",
+    "summary": "Every purchase order is confirmed by five teams in sequence - internal sign-offs first, the supplier last. This guideline defines who checks what, in what order, how long each step should take, and what happens when a step says no.",
+    "ref": "SOP-PROC-01",
+    "owner": "Procurement",
+    "version": "1.0",
+    "effective": "2026-07-04",
+    "review": "Annual",
+    "lead_time": "~10 business days"
+  },
+  "chain": [
+    { "kind": "start", "role": "Origin", "label": "Requester" },
+    { "role": "Gate 1", "label": "Line Manager" },
+    { "role": "Gate 2", "label": "Finance" },
+    { "role": "Gate 3", "label": "Procurement" },
+    { "role": "Gate 4", "label": "IT & Compliance" },
+    { "role": "Gate 5", "label": "Supplier", "provider": true },
+    { "kind": "end", "role": "Result", "label": "PO Issued" }
+  ],
+  "stages": [
+    {
+      "title": "Line Manager approval",
+      "owner": "Requesting team",
+      "sla": "1 day",
+      "purpose": "Confirm the purchase is a genuine, budgeted business need before it consumes anyone else's time.",
+      "needs": "PO request form, business justification, supplier quote.",
+      "produces": "Manager's approval on the request.",
+      "decisions": [
+        { "state": "go", "label": "APPROVE", "to": "Finance" },
+        { "state": "hold", "label": "RETURN", "to": "Requester (fix & resubmit)" },
+        { "state": "stop", "label": "REJECT", "to": "Closed" }
+      ]
+    },
+    {
+      "title": "Finance - budget verification",
+      "owner": "Finance",
+      "sla": "2 days",
+      "purpose": "Verify funds are available against the correct cost center and budget line, and assign the accounting code.",
+      "needs": "Approved request, cost-center code, current budget.",
+      "produces": "Budget confirmation with GL coding.",
+      "decisions": [
+        { "state": "go", "label": "APPROVE", "to": "Procurement" },
+        { "state": "hold", "label": "RETURN", "to": "Requester (recode)" },
+        { "state": "stop", "label": "REJECT", "to": "Escalate: Dept. Head" }
+      ]
+    },
+    {
+      "title": "Procurement review",
+      "owner": "Procurement",
+      "sla": "2 days",
+      "purpose": "Validate the supplier, pricing and terms; ensure contract compliance and, above threshold, competitive quotes.",
+      "needs": "Budget-confirmed request, quote, price comparison if required.",
+      "produces": "Approved supplier & terms; draft purchase order.",
+      "decisions": [
+        { "state": "go", "label": "APPROVE", "to": "IT & Compliance" },
+        { "state": "hold", "label": "RETURN", "to": "Requester (clarify)" },
+        { "state": "stop", "label": "REJECT", "to": "Re-source supplier" }
+      ]
+    },
+    {
+      "title": "IT & compliance sign-off",
+      "owner": "IT Security",
+      "sla": "3 days",
+      "purpose": "For IT, software and data services: check security, data-privacy, licensing and policy fit before committing.",
+      "needs": "Draft PO, product/service detail, data-processing terms.",
+      "produces": "Compliance sign-off; issued PO.",
+      "decisions": [
+        { "state": "go", "label": "APPROVE", "to": "Supplier" },
+        { "state": "hold", "label": "RETURN", "to": "Procurement (needs DPA)" },
+        { "state": "stop", "label": "REJECT", "to": "Escalate: CISO" }
+      ]
+    },
+    {
+      "title": "Supplier confirmation",
+      "owner": "Provider - external",
+      "sla": "2 days",
+      "purpose": "The provider accepts the PO and confirms price, availability and a delivery date. This is the fifth and final confirmation.",
+      "needs": "Issued purchase order.",
+      "produces": "Order acknowledgement with delivery ETA.",
+      "decisions": [
+        { "state": "go", "label": "CONFIRM", "to": "PO active, delivery scheduled" },
+        { "state": "hold", "label": "DISCREPANCY", "to": "Procurement (renegotiate)" }
+      ]
+    }
+  ],
+  "legend": [
+    { "state": "go", "term": "APPROVE", "desc": "moves forward to the next team in the chain." },
+    { "state": "hold", "term": "RETURN", "desc": "loops back one step for a fix; the clock pauses, no restart." },
+    { "state": "stop", "term": "REJECT", "desc": "exits the flow or escalates; the requester is notified with a reason." }
+  ],
+  "exceptions": [
+    { "title": "SLA breach", "desc": "A gate that misses its target auto-escalates to that team's lead the next morning." },
+    { "title": "High value", "desc": "Orders above the delegated limit add a Department Head sign-off between Gates 2 and 3." },
+    { "title": "Urgent", "desc": "A flagged rush order runs the same gates but on a halved SLA - approval still sequential, never skipped." }
+  ]
+}

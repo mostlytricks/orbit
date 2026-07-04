@@ -9,7 +9,7 @@ For in-flight state, read `CONTEXT.md`.
 
 ## Skills
 
-orbit ships three agent skills. Each is a folder under `skills/<name>/` with a
+orbit ships five agent skills. Each is a folder under `skills/<name>/` with a
 `SKILL.md` (the canonical, astra-shaped source). When a task matches one, **read
 that skill's `SKILL.md` and follow its procedure** — the skills carry no filing
 rules of their own; those live in `.gravity/filing/SPEC.md`.
@@ -20,7 +20,8 @@ rules of their own; those live in `.gravity/filing/SPEC.md`.
 | `file-triage` | Sort a messy directory (usually `00-inbox/`) into the orbit areas — plan first, move never delete, leave unclassifiable files behind with a question. | `skills/file-triage/SKILL.md` |
 | `area-architect` | Review/restructure the top-level area tree — add/rename/merge/retire an area per the lifecycle rules; push back on top-layer sprawl. | `skills/area-architect/SKILL.md` |
 | `orbit-dashboard` | Generate the self-contained tree-health dashboard and hunt useless huge files (duplicates, big+stale). | `skills/orbit-dashboard/SKILL.md` |
+| `process-architect` | Document *how a process works* — interview the user to define a healthy approval chain or handoff pipeline, pressure-test it against a health rubric, then render it as a self-contained HTML guideline from a JSON definition. Not a filing skill; carries no filing rules. | `skills/process-architect/SKILL.md` |
 
-(Claude Code discovers the same three under `.claude/skills/` via machine-local
+(Claude Code discovers the same skills under `.claude/skills/` via machine-local
 junctions — recreate with `python .claude/setup-skills.py`. `skills/` is the one
 source of truth; the junctions are gitignored.)
