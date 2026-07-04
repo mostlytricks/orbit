@@ -1,9 +1,10 @@
 """Generate dashboard.html — orbit tree health as one self-contained HTML file.
 
 Usage:
-    python skills/orbit-dashboard/generate.py [orbit-root] [-o output.html]
+    python skills/orbit-dashboard/generate.py [orbit-root] [-o output.html] [--open]
 
 Defaults: root = current directory, output = <root>/dashboard.html.
+--open (or -O) launches the written file in the default browser (stdlib webbrowser).
 Follows the astra `dashboarding` skill rules: one file, zero external resources,
 generated never hand-edited, one question per panel, numbers get context.
 Stdlib only - runs on the populated work instance too. Console output stays
@@ -15,6 +16,7 @@ import html
 import subprocess
 import sys
 import time
+import webbrowser
 from datetime import datetime
 from pathlib import Path
 
@@ -82,6 +84,11 @@ def lint(root: Path):
 
 def main() -> int:
     args = list(sys.argv[1:])
+    open_after = False
+    for flag in ("--open", "-O"):
+        while flag in args:
+            args.remove(flag)
+            open_after = True
     out = None
     if "-o" in args:
         i = args.index("-o")
@@ -316,6 +323,9 @@ python skills/orbit-dashboard/generate.py</footer>
     print(f"wrote {out} ({len(doc):,} bytes) - lint {'PASS' if ok else 'FAIL'}, "
           f"{total_files} files, {human(total_bytes)}, inbox {len(inbox)}, "
           f"candidates {len(candidates)}, dupe groups {len(dupes)}")
+    if open_after:
+        webbrowser.open(out.resolve().as_uri())
+        print(f"opened {out.resolve()} in the default browser")
     return 0
 
 

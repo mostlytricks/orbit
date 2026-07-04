@@ -13,10 +13,12 @@ zero external resources, generated never hand-edited, one question per panel.
 
 1. From the orbit root (design instance or the populated work copy), run:
    ```bash
-   python skills/orbit-dashboard/generate.py
+   python skills/orbit-dashboard/generate.py --open   # generate AND open in browser
    ```
-   Optional: `<root>` as first arg, `-o <file>` for a different output path.
-2. Open `dashboard.html` in a browser. KPI strip first (contract · files · size ·
+   Optional: `<root>` as first arg, `-o <file>` for a different output path,
+   `--open` (or `-O`) to launch the result in the default browser (stdlib `webbrowser`;
+   omit it for headless/CI use — the file is still written).
+2. The dashboard opens (or open `dashboard.html` yourself). KPI strip first (contract · files · size ·
    areas/9 · inbox · dupe waste), then panels, each answering one question:
    - **Cleanup candidates** — probably-useless files: > 5 MB and untouched 180+ days, ranked by size × staleness.
    - **Heaviest files** — top 15 by size, with age.
