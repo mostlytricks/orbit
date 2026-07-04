@@ -7,6 +7,22 @@ is separate and lives in `CLAUDE.md`.
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-05
+
+### Added
+- **`process-architect` skill** — documents *how a process works* (approval chains,
+  handoff pipelines), the counterpart to the filing skills that decide *where files
+  go*. An interview procedure (`SKILL.md`) draws a process out and pressure-tests it
+  against a health rubric — one owner per gate, explicit entry/exit criteria, named
+  `go`/`hold`/`stop` decision states, no dead ends, a per-gate SLA, escape hatches —
+  then `generate.py` renders the agreed JSON definition as one self-contained,
+  theme-aware, print-clean HTML guideline. Data-in/HTML-out like `orbit-dashboard`:
+  the JSON definition is the tracked source, `*.process.html` is disposable gitignored
+  output, never hand-edited. Ships two sample definitions — a fake five-gate
+  purchase-order approval chain (internal sign-offs then the external supplier) and
+  orbit's own file/directory fix process (scout → triage → file → verify →
+  restructure). Carries no filing rules; registered in `AGENTS.md`.
+
 ## [0.2.0] - 2026-07-05
 
 ### Added

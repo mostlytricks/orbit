@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "title": "Fixing a Messy Directory",
+    "eyebrow": "orbit internal process - filing",
+    "summary": "How orbit takes files scattered across the wild - a Desktop dump, a Downloads pile, a synced work folder - and gives each one its single home in the numbered tree. Five gates, run by orbit's skills against one contract. The wall through all of them: never lose a file, never delete, and never guess - anything unclear waits in the inbox with a question.",
+    "ref": "orbit/filing",
+    "owner": "orbit skills",
+    "version": "1.0",
+    "effective": "2026-07-04",
+    "review": "on SPEC change",
+    "lead_time": "one triage session"
+  },
+  "chain": [
+    { "kind": "start", "role": "Origin", "label": "Wild directory" },
+    { "role": "Gate 1", "label": "file-scout" },
+    { "role": "Gate 2", "label": "file-triage" },
+    { "role": "Gate 3", "label": "Place in area" },
+    { "role": "Gate 4", "label": "Contract wall" },
+    { "role": "Gate 5", "label": "area-architect" },
+    { "kind": "end", "role": "Result", "label": "One home each" }
+  ],
+  "stages": [
+    {
+      "title": "Scout the source",
+      "owner": "file-scout",
+      "purpose": "Gather work files from other directories into the inbox without touching a source destructively - dumps get moved, live/synced folders get copied.",
+      "needs": "Named source roots, each tagged dump or live (SPEC 'Intake').",
+      "produces": "Files staged in 00-inbox/ with provenance recorded; exact duplicates skipped.",
+      "decisions": [
+        { "state": "go", "label": "STAGED", "to": "file-triage" },
+        { "state": "hold", "label": "DUPLICATE", "to": "Skip (already in tree)" },
+        { "state": "stop", "label": "NEVER DELETE", "to": "Source left intact" }
+      ]
+    },
+    {
+      "title": "Triage & classify",
+      "owner": "file-triage",
+      "purpose": "Read each inbox file and match it to its one home using the SPEC decision procedure. Plan the whole move before touching anything.",
+      "needs": "Files in 00-inbox/, the areas table in .gravity/filing/SPEC.md.",
+      "produces": "A filing plan: each file mapped to a target area and path.",
+      "decisions": [
+        { "state": "go", "label": "CLASSIFIED", "to": "Place in area" },
+        { "state": "hold", "label": "UNCLEAR", "to": "Stays in inbox with a question" },
+        { "state": "stop", "label": "NEVER GUESS", "to": "No folder invented" }
+      ]
+    },
+    {
+      "title": "Place in its area",
+      "owner": "file-triage",
+      "purpose": "Move each classified file to its home under the numbered tree, applying the naming conventions - date prefix, daily nesting, one folder per project.",
+      "needs": "The agreed filing plan.",
+      "produces": "File at NN-area/...; the inbox emptied of it. Move only, never copy-and-leave.",
+      "decisions": [
+        { "state": "go", "label": "FILED", "to": "Contract wall" },
+        { "state": "hold", "label": "NAME CLASH", "to": "Resolve name, then file" }
+      ]
+    },
+    {
+      "title": "Verify against the contract",
+      "owner": "check_structure / check_triage",
+      "purpose": "Prove mechanically that the tree still matches the contract - numbering, top-layer budget, tree-to-SPEC agreement. A wall, not an eyeball.",
+      "needs": "The changed tree.",
+      "produces": "PASS verdict, or a precise list of violations.",
+      "decisions": [
+        { "state": "go", "label": "PASS", "to": "Done (or area-architect)" },
+        { "state": "stop", "label": "FAIL", "to": "Back to triage to fix" }
+      ]
+    },
+    {
+      "title": "Restructure if the tree strains",
+      "owner": "area-architect",
+      "purpose": "Only when the top-layer budget warns or an area outgrows itself: add, rename, merge or retire an area per the lifecycle rules, then regenerate the browsing cards.",
+      "needs": "Structure-lint signals; the SPEC change order.",
+      "produces": "Adjusted tree and regenerated NN-*/README cards - or no change, by design.",
+      "decisions": [
+        { "state": "go", "label": "RESTRUCTURED", "to": "Re-verify the contract" },
+        { "state": "hold", "label": "WITHIN BUDGET", "to": "Leave the tree as-is" }
+      ]
+    }
+  ],
+  "legend": [
+    { "state": "go", "term": "GO", "desc": "the file advances to the next gate toward its home." },
+    { "state": "hold", "term": "HOLD", "desc": "it waits - in the inbox with a question, or for a small fix - and is never lost." },
+    { "state": "stop", "term": "WALL", "desc": "a hard rule fires: never delete a source, never guess a folder, never pass a failing contract." }
+  ],
+  "exceptions": [
+    { "title": "Unclassifiable file", "desc": "Stays in 00-inbox/ with a written question - the mission wall. It is never guessed into a folder to clear the inbox." },
+    { "title": "Deep-archive candidate", "desc": "A large, cold, still-valuable file is a keeper - it moves to the deep-archive area (SPEC open), never gets deleted." },
+    { "title": "New area needed", "desc": "If files keep landing with no home, that is an area-architect signal - follow the SPEC change order, not an ad-hoc top-level folder." }
+  ]
+}

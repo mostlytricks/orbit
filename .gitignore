@@ -44,6 +44,10 @@
 
 # generated output — regenerate via skills/orbit-dashboard/generate.py
 dashboard.html
+# generated process guidelines — regenerate via skills/process-architect/generate.py
+# from a tracked JSON definition; the HTML is disposable. Kept out of skills/ so the
+# skills/ re-include (Wall 2) never tracks it.
+*.process.html
 # per-area browsing cards (NN-*/README.md) are also generated — regenerate via
 # skills/area-architect/generate_cards.py. Already denied by Wall 1 above (area
 # folders track only .gitkeep), listed here only so their absence from git is expected.
