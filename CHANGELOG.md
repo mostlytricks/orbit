@@ -7,6 +7,16 @@ is separate and lives in `CLAUDE.md`.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-05
+
+### Added
+- **Per-area browsing cards** — `skills/area-architect/generate_cards.py` generates one
+  `NN-*/README.md` per area *from the SPEC areas table* (single source, no drift), so
+  browsing the tree in a file manager at work self-explains without an agent. Cards are a
+  generated artifact — gitignored by the existing deny-by-default area wall (like
+  `dashboard.html`), never hand-edited — and regeneration is now the final step of the
+  `area-architect` restructure procedure, so a rename/add/retire can't orphan a stale card.
+
 ## [0.1.0] - 2026-07-05
 
 First tagged release — the filing system's whole first arc, exercised on real files.

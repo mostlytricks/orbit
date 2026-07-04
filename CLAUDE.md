@@ -29,6 +29,7 @@ No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain 
 | The area tree itself (add/rename/merge/retire an area) | `.gravity/filing/SPEC.md` → "Area lifecycle & top-layer budget" — then follow its change order |
 | A skill's procedure (not filing rules — those live in the SPEC) | `skills/<name>/SKILL.md` |
 | The dashboard's panels or look | `skills/orbit-dashboard/generate.py` (HTML+CSS inline; keep zero external resources) |
+| A per-area browsing card (`NN-*/README.md`) | It's a *generated artifact* — edit `.gravity/filing/SPEC.md` (areas table), then `python skills/area-architect/generate_cards.py .`; never hand-edit a card |
 | What's next / slice queue | `.gravity/IMPLEMENTATION_PLAN.md` |
 
 New feature? Run the domain gate in `.gravity/IMPLEMENTATION_PLAN.md`'s queue rules first — most features are slices under `filing` (or future domains), not new domains.

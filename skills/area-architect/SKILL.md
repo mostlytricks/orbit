@@ -29,7 +29,11 @@ lifecycle & top-layer budget") — **this skill contains no rules of its own**.
    b. then create/rename folders to match (renames via `mv`/`git mv`, files rehomed
       before a merge/split/retire — never orphaned, never deleted);
    c. then `python tests/check_structure.py .` → must PASS.
-6. **Report.** What changed, the lint output, and any files that still need triage
+6. **Regenerate the browsing cards.** `python skills/area-architect/generate_cards.py .`
+   — refreshes each area's `README.md` from the (just-edited) contract so a rename/add
+   picks up new text and a retired area's folder takes its card with it. The cards are a
+   generated artifact (gitignored, like `dashboard.html`); never hand-edit one.
+7. **Report.** What changed, the lint output, and any files that still need triage
    into restructured areas.
 
 ## Never

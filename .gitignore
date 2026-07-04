@@ -44,6 +44,9 @@
 
 # generated output — regenerate via skills/orbit-dashboard/generate.py
 dashboard.html
+# per-area browsing cards (NN-*/README.md) are also generated — regenerate via
+# skills/area-architect/generate_cards.py. Already denied by Wall 1 above (area
+# folders track only .gitkeep), listed here only so their absence from git is expected.
 
 # machine-local skill wiring: junctions into Claude Code's discovery root.
 # skills/ stays canonical; recreate the links with `python .claude/setup-skills.py`.
