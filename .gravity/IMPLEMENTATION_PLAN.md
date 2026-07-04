@@ -29,7 +29,7 @@ Rolling lanes (growing project — skills accrete, phases would be fake). Rules:
 | later | Per-area README.md files for human browsing at work | ○ |
 | later | Deep-archive procedure for old years (see SPEC OPEN) | ○ |
 
-Shipped (details in git history): **triage loop** — tree + contract + file-triage skill + fixture gate (2026-07-04) · **restructure loop** — `.gravity/` adoption + `filing/SPEC.md` (tagged rules, lifecycle & budget) + area-architect skill + structure lint (2026-07-04) · **dashboard** — orbit-dashboard skill, one self-contained HTML page (lint verdict, inbox backlog, budget, census, recent files), verified on empty + populated trees (2026-07-04).
+Shipped (details in git history): **triage loop** — tree + contract + file-triage skill + fixture gate (2026-07-04) · **restructure loop** — `.gravity/` adoption + `filing/SPEC.md` (tagged rules, lifecycle & budget) + area-architect skill + structure lint (2026-07-04) · **dashboard** — orbit-dashboard skill, one self-contained HTML page, verified on empty + populated trees (2026-07-04) · **dashboard v2 (junk hunt)** — pro redesign (KPI strip, sticky header, SVG type-donut) + cleanup candidates (>5 MB & 180d+ stale, size×staleness rank), md5 exact-duplicate groups + dupe-waste KPI, age profile; hunting guide in the SKILL; planted-junk detection verified (2026-07-04).
 
 ## Locked decisions
 

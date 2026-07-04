@@ -1,6 +1,6 @@
 ---
 name: orbit-dashboard
-description: Generate orbit's tree-health dashboard — one self-contained HTML file showing contract verdict, inbox backlog, top-layer budget, area census, and recent activity.
+description: Generate orbit's tree-health dashboard — one self-contained HTML file with contract verdict, cleanup candidates (big + stale), exact duplicates, size-by-type, age profile, area census — and guide the hunt for useless huge files.
 ---
 
 # orbit-dashboard
@@ -16,18 +16,36 @@ zero external resources, generated never hand-edited, one question per panel.
    python skills/orbit-dashboard/generate.py
    ```
    Optional: `<root>` as first arg, `-o <file>` for a different output path.
-2. Open `dashboard.html` in a browser. Panels answer, in order:
-   - **Does the tree match the contract?** — live `check_structure.py` verdict.
-   - **Is triage keeping up?** — inbox backlog count + oldest file age.
-   - **How close to the ceiling?** — area count vs the 7/9 budget, slot chips.
-   - **Where does the mass live?** — files + size per area.
-   - **What changed lately?** — the 10 most recent files.
+2. Open `dashboard.html` in a browser. KPI strip first (contract · files · size ·
+   areas/9 · inbox · dupe waste), then panels, each answering one question:
+   - **Cleanup candidates** — probably-useless files: > 5 MB and untouched 180+ days, ranked by size × staleness.
+   - **Heaviest files** — top 15 by size, with age.
+   - **Exact duplicates** — md5-verified same-bytes groups; waste counts extra copies only.
+   - **Where the bytes live, by type** — extension share donut.
+   - **Age profile** — files by modified year (the 10-year cold mass).
+   - **Area census · Top-layer budget · Contract verdict · Recent activity.**
 3. Regenerate whenever you want fresh numbers — the file is disposable output
    (gitignored), never a source.
+
+## Hunting useless huge files (the guide)
+
+1. Start at the **dupe waste** KPI and the **Exact duplicates** panel: extra copies
+   are the only files that are *provably* useless — keep one, remove the rest yourself.
+2. Walk **Cleanup candidates** top-down (biggest × stalest first). For each, ask:
+   - superseded? (a newer version exists elsewhere — check the project folder) → junk;
+   - historical? (final deliverable, audit trail, contract) → keeper, leave in place
+     or move to the deep-archive area when that exists (SPEC `OPEN`);
+   - unknown? → open it before deciding; never judge by name alone.
+3. Cross-check **by type**: installer/media extensions (`.iso`, `.zip`, `.mp4`)
+   dominating an area usually means downloads that never belonged in orbit.
+4. **The wall: orbit never deletes.** This skill only finds; *you* delete, outside
+   the skills. Anything worth keeping but rarely touched is a deep-archive candidate,
+   not a deletion.
 
 ## Never
 
 - Never hand-edit `dashboard.html` — fix the generator or the tree, then regenerate.
 - Never add external resources (CDN, web fonts) to the generator's HTML — it must
   render on an offline intranet.
-- Never let the dashboard mutate the tree — it is read-only by contract.
+- Never let the dashboard mutate the tree — it is read-only by contract; deletion
+  advice is advice, executed by the human only.
