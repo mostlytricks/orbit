@@ -82,14 +82,15 @@ Both are walls, not eyeballing. The filing *rules themselves* stay `[review]` (o
 ## Entry Points
 
 - `.gravity/filing/SPEC.md` — **the architectural seam**: the one contract that both the human filing habit and every sorting/restructuring skill derive from. Change filing behavior here, never inside a skill.
-- `skills/<name>/SKILL.md` — the daily-work skills (`file-triage` sorts, `area-architect` restructures, `orbit-dashboard` monitors).
+- `skills/<name>/SKILL.md` — the daily-work skills (`file-triage` sorts, `area-architect` restructures, `orbit-dashboard` monitors). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
 - `00-inbox/ … 50-policy/` — the six areas (meanings in the SPEC).
 - `tests/` — fixture inbox + the two mechanical checkers (the gate).
 
 ## Git
 
-- Remote: none (local only — the work machine can't reach GitHub anyway).
-- Default branch: `master`.
+- Remote: `origin` → `github.com/mostlytricks/orbit` — **PUBLIC**. Only the *design instance* lives here (structure, skills, contract, fake fixtures); the populated work instance never gets this remote (and the work machine can't reach GitHub anyway).
+- **Safety wall (why it's OK to be public):** `.gitignore` is deny-by-default *inside every area* — nothing under `00-inbox/ … 50-policy/` is ever committed except `.gitkeep`, so real work content can't leak regardless of file type. Adding an area means adding its two `.gitignore` lines (part of the SPEC change order). Never `git add -f` a file inside an area.
+- Default branch: `main`.
 
 ---
 

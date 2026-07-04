@@ -1,7 +1,26 @@
-# Hybrid model (CLAUDE.md Constraints): the skeleton is tracked, payload is not.
-# Structure is versioned; content binaries in the areas are ignored.
+# orbit is a PUBLIC repo. The STRUCTURE (docs, skills, contract, fixtures) is
+# versioned; real work CONTENT is NEVER committed. Two walls enforce that.
+# (CLAUDE.md non-goal: "No corporate data in this repo.")
 
-# payload binaries anywhere in the areas
+# ── Wall 1: deny-by-default inside every numbered area. ─────────────────────
+# Nothing under an area folder is ever tracked except its .gitkeep keepalive,
+# so a work file dropped in ANY format (not just known binaries) cannot leak.
+# When you add a new area, add its two lines here (part of the SPEC change order).
+00-inbox/**
+10-daily/**
+20-design/**
+30-operations/**
+40-projects/**
+50-policy/**
+!00-inbox/.gitkeep
+!10-daily/.gitkeep
+!20-design/.gitkeep
+!30-operations/.gitkeep
+!40-projects/.gitkeep
+!50-policy/.gitkeep
+
+# ── Wall 2: block payload binary extensions ANYWHERE (belt & suspenders). ───
+# Catches binaries dropped outside a numbered area too (e.g. a stray root file).
 *.pptx
 *.ppt
 *.xlsx
@@ -19,12 +38,16 @@
 *.gif
 *.vsdx
 
-# but fixtures and skills are skeleton — always tracked
+# fixtures and skills are skeleton — always tracked (re-includes past Wall 2)
 !tests/**
 !skills/**
 
 # generated output — regenerate via skills/orbit-dashboard/generate.py
 dashboard.html
+
+# machine-local skill wiring: junctions into Claude Code's discovery root.
+# skills/ stays canonical; recreate the links with `python .claude/setup-skills.py`.
+.claude/skills/
 
 # OS noise
 Thumbs.db

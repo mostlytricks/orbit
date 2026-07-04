@@ -9,12 +9,12 @@
 Last touched: 2026-07-04
 
 ## Completed
-- Day one, slices 1–2 — triage loop (areas + contract + `file-triage` + fixture gate) and restructure loop (`.gravity/` adoption, `filing/SPEC.md`, `area-architect`, structure lint); both gates PASS + FAIL-on-violation verified.
+- Skill wiring — made the three skills discoverable by both agents while keeping `skills/` the single astra-shaped source: `.claude/setup-skills.py` junctions each into `.claude/skills/` (Claude Code now lists them as invokable), `AGENTS.md` gained a Skills table (Codex), junctions gitignored + `CLAUDE.md` Entry Points notes the wiring. Structure lint still PASS.
 - Day one, slice 3+4 — `orbit-dashboard` skill, then its pro v2: KPI strip, cleanup candidates (>5 MB & 180d+ stale), md5 exact-duplicates + dupe-waste KPI, type donut, age profile, hunting guide in the SKILL; planted-junk detection verified, zero external refs, cp949-safe. Walls resolved: renumbering = deliberate migration; apps allowed, static HTML first.
 
 ## Current State
 - The design instance lives here (no corporate data); the populated instance will live on the work machine (structure by copy, skills via astra later). All scripts are stdlib-only so they run at work too.
-- Gate: `python tests/check_structure.py .` + fixture sort → `check_triage.py` — both green 2026-07-04. Dashboard regen: `python skills/orbit-dashboard/generate.py` (output gitignored).
+- Gate: `python tests/check_structure.py .` + fixture sort → `check_triage.py` — both green 2026-07-04. Dashboard regen: `python skills/orbit-dashboard/generate.py` (output gitignored). After clone/copy, run `python .claude/setup-skills.py` to re-wire Claude Code skill discovery.
 - No remote (work has no GitHub).
 
 ## Next Step
