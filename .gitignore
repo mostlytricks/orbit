@@ -1,0 +1,29 @@
+# Hybrid model (CLAUDE.md Constraints): the skeleton is tracked, payload is not.
+# Structure is versioned; content binaries in the areas are ignored.
+
+# payload binaries anywhere in the areas
+*.pptx
+*.ppt
+*.xlsx
+*.xls
+*.docx
+*.doc
+*.pdf
+*.zip
+*.7z
+*.msg
+*.eml
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.vsdx
+
+# but fixtures and skills are skeleton — always tracked
+!tests/**
+!skills/**
+
+# OS noise
+Thumbs.db
+desktop.ini
+__pycache__/
