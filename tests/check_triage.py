@@ -1,4 +1,5 @@
-"""The orbit gate: verify a triaged copy of tests/fixture-inbox against FILING.md.
+"""The orbit gate: verify a triaged copy of tests/fixture-inbox against the filing
+contract (.gravity/filing/SPEC.md).
 
 Usage:
     cp -r tests/fixture-inbox <scratch>/00-inbox   # plus empty area dirs, or copy the repo tree

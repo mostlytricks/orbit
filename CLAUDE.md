@@ -4,14 +4,32 @@
 
 > **alias:** `orbit`
 
+> **gravity: v1.4** · _the version of the workspace gravity system this project adopted (root `VERSION` / `CHANGELOG.md`)._
+
+> **Docs live in `.gravity/`.** This `CLAUDE.md` (identity, *how*) and `CONTEXT.md` (*now*) stay at the root and auto-load. Everything else is organized by subject domain under `.gravity/` — deliberately, because **orbit's root IS the product**: the top layer must show the areas, not a doc pile. One concern, one home — link, don't restate.
+
 ---
 
-## Docs in this project
+## Doc Map (`.gravity/`)
 
-- **CONTEXT.md** — start here: current state + the single next step. *Now.*
-- **CLAUDE.md** (this file) — stable identity: what orbit is, conventions, gotchas. *How.*
-- **FILING.md** — **the filing contract**: what each area means + the decision procedure. An agent loads this before sorting anything; a human reads it to file by hand. One contract, both audiences.
-- **IMPLEMENTATION_PLAN.md** — slice queue & locked decisions. *What's next* (may lag; CONTEXT wins on "now").
+```
+.gravity/
+  IMPLEMENTATION_PLAN.md    # what/next — slice queue, locked decisions, domain status spine
+  filing/  SPEC.md          # THE FILING CONTRACT — areas, decision procedure, lifecycle & budget
+```
+
+No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain `ARCHITECTURE.html` (nothing outgrows a file map). Recognized only when present.
+
+## What to read before a change (router)
+
+| If you're changing… | Read first |
+|---|---|
+| Where files go, area meanings, naming, sorting behavior | `.gravity/filing/SPEC.md` |
+| The area tree itself (add/rename/merge/retire an area) | `.gravity/filing/SPEC.md` → "Area lifecycle & top-layer budget" — then follow its change order |
+| A skill's procedure (not filing rules — those live in the SPEC) | `skills/<name>/SKILL.md` |
+| What's next / slice queue | `.gravity/IMPLEMENTATION_PLAN.md` |
+
+New feature? Run the domain gate in `.gravity/IMPLEMENTATION_PLAN.md`'s queue rules first — most features are slices under `filing` (or future domains), not new domains.
 
 ## Why (and what would betray it)
 
@@ -23,22 +41,23 @@
 ## Stack
 
 - **No runtime app.** Markdown + directory conventions + agent `SKILL.md`s.
-- **Python 3.x (stdlib only)** for the mechanical gate (`tests/check_triage.py`) — no venv needed.
+- **Python 3.x (stdlib only)** for the mechanical gates (`tests/check_triage.py`, `tests/check_structure.py`) — no venv needed; they run on the work instance too.
 - Skills are astra-shaped (folder with `SKILL.md`) so they can be published to the astra registry later.
 
 ## Run
 
-There is nothing to run. Claude Code opens here (or on the work machine's populated copy) and uses the skills; `FILING.md` is the contract they follow.
+There is nothing to run. Claude Code opens here (or on the work machine's populated copy) and uses the skills; `.gravity/filing/SPEC.md` is the contract they follow.
 
 ## Test
 
 ```bash
-# the gate: copy the fixture, sort it per the skill, verify mechanically
-cp -r tests/fixture-inbox <scratch>/inbox   # then run the file-triage skill on it
-python tests/check_triage.py <scratch>      # PASS = every file at its expected home, none lost
+python tests/check_structure.py .            # structure lint: tree ↔ contract, numbering, top-layer budget
+# behavior gate: copy the fixture, sort it per the file-triage skill, verify mechanically
+cp -r tests/fixture-inbox <scratch>/00-inbox   # + empty area dirs
+python tests/check_triage.py <scratch>
 ```
 
-`tests/check_triage.py` holds the expected mapping for the fixture — a wall, not eyeballing. The filing *rules themselves* stay `[review]` (only you can say where your files belong).
+Both are walls, not eyeballing. The filing *rules themselves* stay `[review]` (only you can say where your files belong).
 
 ## Conventions
 
@@ -52,13 +71,14 @@ python tests/check_triage.py <scratch>      # PASS = every file at its expected 
 - **Design here, deploy at work.** The work machine has no GitHub — the structure travels by copy (and skills via astra). Skills must use **relative paths only**; never hardcode a machine path.
 - **Hybrid git:** the skeleton (docs, skills, contract, fixtures) is tracked; payload binaries (`pptx/xlsx/docx/pdf/zip/msg`, images) in the areas are `.gitignore`d — structure is versioned, content is not. `tests/` is whitelisted so fixture files with real extensions stay tracked.
 - Area folders are kept alive by `.gitkeep` — don't delete them when an area is empty.
+- Skills carry **no filing rules** — a skill that starts encoding "where files go" is the seam breaking.
 
 ## Entry Points
 
-- `FILING.md` — **the architectural seam**: the one contract that both the human filing habit and every sorting skill derive from. Change filing behavior here, never inside a skill.
-- `skills/<name>/SKILL.md` — the daily-work skills (`file-triage` first).
-- `00-inbox/ … 50-policy/` — the six areas (see FILING.md for meanings).
-- `tests/` — fixture inbox + mechanical checker (the gate).
+- `.gravity/filing/SPEC.md` — **the architectural seam**: the one contract that both the human filing habit and every sorting/restructuring skill derive from. Change filing behavior here, never inside a skill.
+- `skills/<name>/SKILL.md` — the daily-work skills (`file-triage` sorts, `area-architect` restructures).
+- `00-inbox/ … 50-policy/` — the six areas (meanings in the SPEC).
+- `tests/` — fixture inbox + the two mechanical checkers (the gate).
 
 ## Git
 
@@ -68,6 +88,6 @@ python tests/check_triage.py <scratch>      # PASS = every file at its expected 
 ---
 
 <!--
-This file is stable identity — it changes rarely. For in-flight session state
-(what was just done, what's broken, what's next), use CONTEXT.md.
+This file is stable identity + the router — it changes rarely. For in-flight session
+state (what was just done, what's broken, what's next), use CONTEXT.md.
 -->
