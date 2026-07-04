@@ -16,6 +16,7 @@ rules of their own; those live in `.gravity/filing/SPEC.md`.
 
 | Skill | Use when | Path |
 |---|---|---|
+| `file-scout` | Gather work files from *other* directories (Desktop, Downloads, old dumps) into `00-inbox/` — scan named source roots read-only, move from dumps / copy from live sources, dedup, record provenance, never delete a source. The front door before `file-triage`. | `skills/file-scout/SKILL.md` |
 | `file-triage` | Sort a messy directory (usually `00-inbox/`) into the orbit areas — plan first, move never delete, leave unclassifiable files behind with a question. | `skills/file-triage/SKILL.md` |
 | `area-architect` | Review/restructure the top-level area tree — add/rename/merge/retire an area per the lifecycle rules; push back on top-layer sprawl. | `skills/area-architect/SKILL.md` |
 | `orbit-dashboard` | Generate the self-contained tree-health dashboard and hunt useless huge files (duplicates, big+stale). | `skills/orbit-dashboard/SKILL.md` |

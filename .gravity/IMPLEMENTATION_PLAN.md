@@ -1,17 +1,17 @@
 # orbit — Implementation plan & resume sheet
 
 > One-line working scenario: a messy directory goes in, every file lands in its one home in the numbered tree (or stays in inbox with a question), and ten years later it's still findable.
-> Branch `master` · last updated 2026-07-04.
+> Branch `main` · last updated 2026-07-04.
 
 ## Status right now
 
-Three slices shipped 2026-07-04: the **triage loop** (tree + contract + `file-triage` + fixture gate), the **restructure loop** (`.gravity/` adoption, `filing/SPEC.md` with tagged rules, `area-architect`, structure lint), and the **dashboard** (`orbit-dashboard` skill → self-contained `dashboard.html`). Both wall questions answered: renumbering allowed as deliberate migration; apps allowed (static HTML first). Next slice: user's pick — see queue.
+Shipped 2026-07-04: the **triage loop** (tree + contract + `file-triage` + fixture gate), the **restructure loop** (`.gravity/` adoption, `filing/SPEC.md` with tagged rules, `area-architect`, structure lint), the **dashboard** (`orbit-dashboard` → self-contained `dashboard.html`), and the **intake loop** (`file-scout` gathers files from other dirs into `00-inbox/` — move-from-dump/copy-from-live, dedup, provenance — governed by the SPEC's new "Intake" section, walled by `check_scout.py`). Wall questions answered: renumbering allowed as deliberate migration; apps allowed (static HTML first). Also this session: skills wired for Claude Code (`.claude/skills` junctions) + Codex (AGENTS.md), and the repo went **public** with a deny-by-default `.gitignore` (areas never committed). Next slice: user's pick — see queue.
 
 ## Domain status spine
 
 | Domain | Status | Docs |
 |---|---|---|
-| filing | ◑ building (contract + two skills + two walls; lifecycle rules fresh) | `filing/SPEC.md` |
+| filing | ◑ building (contract + three skills — scout/triage/architect — + three walls; intake fresh) | `filing/SPEC.md` |
 
 ## Slice queue
 
@@ -29,7 +29,7 @@ Rolling lanes (growing project — skills accrete, phases would be fake). Rules:
 | later | Per-area README.md files for human browsing at work | ○ |
 | later | Deep-archive procedure for old years (see SPEC OPEN) | ○ |
 
-Shipped (details in git history): **triage loop** — tree + contract + file-triage skill + fixture gate (2026-07-04) · **restructure loop** — `.gravity/` adoption + `filing/SPEC.md` (tagged rules, lifecycle & budget) + area-architect skill + structure lint (2026-07-04) · **dashboard** — orbit-dashboard skill, one self-contained HTML page, verified on empty + populated trees (2026-07-04) · **dashboard v2 (junk hunt)** — pro redesign (KPI strip, sticky header, SVG type-donut) + cleanup candidates (>5 MB & 180d+ stale, size×staleness rank), md5 exact-duplicate groups + dupe-waste KPI, age profile; hunting guide in the SKILL; planted-junk detection verified (2026-07-04).
+Shipped (details in git history): **triage loop** — tree + contract + file-triage skill + fixture gate (2026-07-04) · **restructure loop** — `.gravity/` adoption + `filing/SPEC.md` (tagged rules, lifecycle & budget) + area-architect skill + structure lint (2026-07-04) · **dashboard** — orbit-dashboard skill, one self-contained HTML page, verified on empty + populated trees (2026-07-04) · **dashboard v2 (junk hunt)** — pro redesign (KPI strip, sticky header, SVG type-donut) + cleanup candidates (>5 MB & 180d+ stale, size×staleness rank), md5 exact-duplicate groups + dupe-waste KPI, age profile; hunting guide in the SKILL; planted-junk detection verified (2026-07-04) · **intake loop** — `file-scout` skill + SPEC "Intake" section (named sources, dump=move/live=copy, dedup, provenance) + `check_scout.py` gate on fake source roots; PASS + FAIL-on-violation (junk ingested, live moved, unrecorded) verified (2026-07-04).
 
 ## Locked decisions
 
@@ -54,6 +54,9 @@ python tests/check_structure.py .              # tree ↔ contract, numbering, b
 cp -r tests/fixture-inbox <scratch>/00-inbox   # + empty area dirs
 # run the file-triage skill on <scratch>
 python tests/check_triage.py <scratch>
+cp -r tests/fixture-sources <scratch>/sources  # + empty 00-inbox/
+# run the file-scout skill on <scratch> (desktop+downloads=dump, onedrive-sync=live)
+python tests/check_scout.py <scratch>
 ```
 
-Last green: 2026-07-04 (both checkers PASS; both verified to FAIL on planted violations).
+Last green: 2026-07-04 (all three checkers PASS; each verified to FAIL on planted violations).

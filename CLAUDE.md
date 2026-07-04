@@ -25,6 +25,7 @@ No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain 
 | If you're changing… | Read first |
 |---|---|
 | Where files go, area meanings, naming, sorting behavior | `.gravity/filing/SPEC.md` |
+| How files get *into* the inbox from other dirs (move/copy, dedup, provenance) | `.gravity/filing/SPEC.md` → "Intake" |
 | The area tree itself (add/rename/merge/retire an area) | `.gravity/filing/SPEC.md` → "Area lifecycle & top-layer budget" — then follow its change order |
 | A skill's procedure (not filing rules — those live in the SPEC) | `skills/<name>/SKILL.md` |
 | The dashboard's panels or look | `skills/orbit-dashboard/generate.py` (HTML+CSS inline; keep zero external resources) |
@@ -42,7 +43,7 @@ New feature? Run the domain gate in `.gravity/IMPLEMENTATION_PLAN.md`'s queue ru
 ## Stack
 
 - **No runtime app.** Markdown + directory conventions + agent `SKILL.md`s.
-- **Python 3.x (stdlib only)** for the mechanical gates (`tests/check_triage.py`, `tests/check_structure.py`) — no venv needed; they run on the work instance too.
+- **Python 3.x (stdlib only)** for the mechanical gates (`tests/check_structure.py`, `tests/check_triage.py`, `tests/check_scout.py`) — no venv needed; they run on the work instance too.
 - Skills are astra-shaped (folder with `SKILL.md`) so they can be published to the astra registry later.
 
 ## Run
@@ -57,12 +58,15 @@ python skills/orbit-dashboard/generate.py   # regenerate dashboard.html (gitigno
 
 ```bash
 python tests/check_structure.py .            # structure lint: tree ↔ contract, numbering, top-layer budget
-# behavior gate: copy the fixture, sort it per the file-triage skill, verify mechanically
+# triage gate: copy the fixture, sort it per the file-triage skill, verify mechanically
 cp -r tests/fixture-inbox <scratch>/00-inbox   # + empty area dirs
 python tests/check_triage.py <scratch>
+# intake gate: copy the fake source roots, scout them per file-scout, verify mechanically
+cp -r tests/fixture-sources <scratch>/sources  # + empty 00-inbox/
+python tests/check_scout.py <scratch>
 ```
 
-Both are walls, not eyeballing. The filing *rules themselves* stay `[review]` (only you can say where your files belong).
+All three are walls, not eyeballing. The filing *rules themselves* stay `[review]` (only you can say where your files belong).
 
 ## Conventions
 
@@ -82,9 +86,9 @@ Both are walls, not eyeballing. The filing *rules themselves* stay `[review]` (o
 ## Entry Points
 
 - `.gravity/filing/SPEC.md` — **the architectural seam**: the one contract that both the human filing habit and every sorting/restructuring skill derive from. Change filing behavior here, never inside a skill.
-- `skills/<name>/SKILL.md` — the daily-work skills (`file-triage` sorts, `area-architect` restructures, `orbit-dashboard` monitors). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
+- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `area-architect` restructures, `orbit-dashboard` monitors). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
 - `00-inbox/ … 50-policy/` — the six areas (meanings in the SPEC).
-- `tests/` — fixture inbox + the two mechanical checkers (the gate).
+- `tests/` — fixture inbox + fixture source roots + the three mechanical checkers (structure, triage, scout — the gate).
 
 ## Git
 

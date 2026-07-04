@@ -1,14 +1,15 @@
 # SPEC — filing (the orbit filing contract)
 
-The compact agent-loadable contract for the `filing` domain: **where a file goes** and
-**what the area tree may look like**. Skills (`file-triage`, `area-architect`) execute
-this contract and carry no rules of their own — change filing behavior *here*.
-Humans follow the same tables when filing by hand.
+The compact agent-loadable contract for the `filing` domain: **how a file arrives**,
+**where it goes**, and **what the area tree may look like**. Skills (`file-scout`,
+`file-triage`, `area-architect`) execute this contract and carry no rules of their own —
+change filing behavior *here*. Humans follow the same tables when filing by hand.
 
 **Gate:**
 ```bash
 python tests/check_structure.py .            # structure lint: tree ↔ this contract, numbering, budget
 python tests/check_triage.py <scratch>       # behavior: fixture sort per the decision procedure
+python tests/check_scout.py <scratch>        # behavior: intake from fixture source roots
 ```
 
 ## Core Definition
@@ -45,6 +46,45 @@ The smallest correctly-filed slice — copy this pattern when creating destinati
 40-projects/erp-upgrade/erp-upgrade-vendor-proposal.pdf   # one kebab slug folder per project
 ```
 
+## Intake (getting files to the front door)
+
+`00-inbox/` is the **only** way in, but files rarely start there — they're scattered
+across the machine (Desktop, Downloads, Documents, old dumps). The `file-scout` skill
+gathers them into the inbox; it derives from these rules and carries none of its own.
+
+**Sources are named, never discovered.** Scout operates only on source roots you name
+explicitly (`~/Desktop`, `~/Downloads`, `D:\old-work`). It never scans a whole drive,
+never touches system/program/app-data directories, and never re-ingests orbit's own tree.
+Skip on sight: hidden files/dirs, `node_modules`, `.venv`, `__pycache__`, `.git`.
+
+**Each source is tagged, and the tag picks the verb:**
+
+| Source kind | Meaning | Action |
+|---|---|---|
+| `dump` | clutter that *should* empty — Desktop, Downloads, an old `misc/` | **move** into `00-inbox/` (consolidation: the file leaves the mess) |
+| `live` | authoritative / synced / still in use — OneDrive, an active project dir | **copy** into `00-inbox/` (the source stays; orbit gets a working copy) |
+
+A `dump` move is a *relocation*, never a deletion; a `live` copy leaves the original
+untouched. **Scout never deletes a source file** (mission wall — CLAUDE.md Why).
+
+**Relevance filter.** Ingest work documents (notes, decisions, reports, policies,
+project files, spreadsheets, presentations, PDFs, archives). Leave personal media,
+installers, app binaries, temp files. Unsure → the file becomes a **question row** in
+the plan, decided by the human — never guessed in, never guessed out.
+
+**Dedup on ingest.** md5 each candidate; if identical bytes already live anywhere in the
+orbit tree (or already in the inbox), skip it and report "already filed" — intake never
+manufactures the duplicates the dashboard then has to hunt.
+
+**Provenance.** Every ingested file gets one line in `00-inbox/.orbit-provenance.jsonl`
+(original absolute path · source tag · action · md5 · date), so a file's origin survives
+the move and a `live` copy is traceable back to its authoritative source. The manifest is
+inbox-local and gitignored — it may name sensitive paths and never leaves the machine.
+
+**Plan first, like triage.** Scout presents `source → action → 00-inbox/name → reason`
+and waits for approval; collisions get `-2`, `-3`, … suffixes, never overwrite. After
+ingest the inbox is a normal messy inbox — hand off to `file-triage`.
+
 ## Decision procedure (for triage)
 
 Classify each file **from its name and, when readable, its content** — in this order:
@@ -76,6 +116,11 @@ The top layer is the product; width is expensive, depth is cheap.
 
 ## Rules
 
+- `[test:check_scout]` intake ingests only relevant files, leaves junk/personal in the source, and writes a provenance entry for each ingested file.
+- `[test:check_scout]` a `dump` source is **moved** (source emptied of the ingested file); a `live` source is **copied** (original preserved).
+- `[review]` sources are named explicitly; scout never scans a whole drive, system/app dirs, or orbit's own tree.
+- `[review]` dedup on ingest: byte-identical files already in orbit are skipped, not re-imported.
+- `[review]` scout never deletes a source file; unsure files become question rows, never guessed in.
 - `[test:check_structure]` top-level area folders match the Areas table 1:1 (tombstone rows excluded) — no rogue directories, no missing areas.
 - `[test:check_structure]` area numbers are two-digit multiples of 10, unique, with `00-inbox/` present.
 - `[test:check_structure]` area count ≤ 8 passes (warning from 7); the 9th area fails the lint.
@@ -87,6 +132,7 @@ The top layer is the product; width is expensive, depth is cheap.
 
 ## Behavioral Contract
 
+- `[test:check_scout]` given fixture source roots (`desktop`/`downloads` tagged `dump`, `onedrive-sync` tagged `live`), when scout runs → the four work files land in `00-inbox/` each with a provenance entry, the installer + photo stay behind, the dump files leave their source, and the live file is copied (original preserved).
 - `[test:check_triage]` given the fixture inbox (12 files), when triage runs per the decision procedure → 10 files land at their exact homes, `IMG_2041.png` + `notes.txt` remain in inbox, none lost or invented.
 - `[test:check_structure]` given a tree with a rogue top-level directory or a missing area, when the lint runs → FAIL naming the offender.
 
@@ -102,4 +148,4 @@ The top layer is the product; width is expensive, depth is cheap.
 
 ---
 
-Skills executing this contract: `skills/file-triage/` (sorting), `skills/area-architect/` (restructuring).
+Skills executing this contract: `skills/file-scout/` (intake from the wild), `skills/file-triage/` (sorting), `skills/area-architect/` (restructuring).
