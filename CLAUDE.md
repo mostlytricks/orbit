@@ -1,6 +1,6 @@
 # orbit
 
-**O**rganized **R**epository for **B**usiness & **IT** **T**asks — an IT manager's personal work OS: one long-lived numbered directory architecture (4–10 years of files) plus agent skills that do the daily labor, starting with *"sort this messy directory into my structure."* Claude Code is the interface; there is no app.
+**O**rganized **R**epository for **B**usiness & **IT** **T**asks — an IT manager's personal work OS: one long-lived numbered directory architecture (4–10 years of files) plus agent skills that do the daily labor, starting with *"sort this messy directory into my structure."* Claude Code is the primary interface; the only app surface is **generated static HTML** (the tree-health dashboard) — no server app yet.
 
 > **alias:** `orbit`
 
@@ -27,6 +27,7 @@ No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain 
 | Where files go, area meanings, naming, sorting behavior | `.gravity/filing/SPEC.md` |
 | The area tree itself (add/rename/merge/retire an area) | `.gravity/filing/SPEC.md` → "Area lifecycle & top-layer budget" — then follow its change order |
 | A skill's procedure (not filing rules — those live in the SPEC) | `skills/<name>/SKILL.md` |
+| The dashboard's panels or look | `skills/orbit-dashboard/generate.py` (HTML+CSS inline; keep zero external resources) |
 | What's next / slice queue | `.gravity/IMPLEMENTATION_PLAN.md` |
 
 New feature? Run the domain gate in `.gravity/IMPLEMENTATION_PLAN.md`'s queue rules first — most features are slices under `filing` (or future domains), not new domains.
@@ -46,7 +47,11 @@ New feature? Run the domain gate in `.gravity/IMPLEMENTATION_PLAN.md`'s queue ru
 
 ## Run
 
-There is nothing to run. Claude Code opens here (or on the work machine's populated copy) and uses the skills; `.gravity/filing/SPEC.md` is the contract they follow.
+No server. Claude Code opens here (or on the work machine's populated copy) and uses the skills; `.gravity/filing/SPEC.md` is the contract they follow.
+
+```bash
+python skills/orbit-dashboard/generate.py   # regenerate dashboard.html (gitignored output; open in browser)
+```
 
 ## Test
 
@@ -72,11 +77,12 @@ Both are walls, not eyeballing. The filing *rules themselves* stay `[review]` (o
 - **Hybrid git:** the skeleton (docs, skills, contract, fixtures) is tracked; payload binaries (`pptx/xlsx/docx/pdf/zip/msg`, images) in the areas are `.gitignore`d — structure is versioned, content is not. `tests/` is whitelisted so fixture files with real extensions stay tracked.
 - Area folders are kept alive by `.gitkeep` — don't delete them when an area is empty.
 - Skills carry **no filing rules** — a skill that starts encoding "where files go" is the seam breaking.
+- **Generated HTML must be self-contained** (no CDN, no web fonts — offline intranet) and ASCII-only on the console (Korean-Windows `cp949`).
 
 ## Entry Points
 
 - `.gravity/filing/SPEC.md` — **the architectural seam**: the one contract that both the human filing habit and every sorting/restructuring skill derive from. Change filing behavior here, never inside a skill.
-- `skills/<name>/SKILL.md` — the daily-work skills (`file-triage` sorts, `area-architect` restructures).
+- `skills/<name>/SKILL.md` — the daily-work skills (`file-triage` sorts, `area-architect` restructures, `orbit-dashboard` monitors).
 - `00-inbox/ … 50-policy/` — the six areas (meanings in the SPEC).
 - `tests/` — fixture inbox + the two mechanical checkers (the gate).
 

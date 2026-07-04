@@ -23,6 +23,9 @@
 !tests/**
 !skills/**
 
+# generated output — regenerate via skills/orbit-dashboard/generate.py
+dashboard.html
+
 # OS noise
 Thumbs.db
 desktop.ini

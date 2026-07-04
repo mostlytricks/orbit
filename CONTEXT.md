@@ -9,13 +9,13 @@
 Last touched: 2026-07-04
 
 ## Completed
-- Day one, slice 1 — triage loop: six numbered areas, filing contract, `file-triage` skill, fixture gate (12 files, PASS + FAIL-on-violation verified).
-- Day one, slice 2 — restructure loop: adopted `.gravity/` (root CLAUDE.md is the router; contract now `.gravity/filing/SPEC.md` with enforcement-tagged rules + area lifecycle & top-layer budget), `area-architect` skill, `tests/check_structure.py` structure lint (PASS on repo; FAIL verified on rogue dir + missing area).
+- Day one, slices 1–2 — triage loop (areas + contract + `file-triage` + fixture gate) and restructure loop (`.gravity/` adoption, `filing/SPEC.md`, `area-architect`, structure lint); both gates PASS + FAIL-on-violation verified.
+- Day one, slice 3 — `orbit-dashboard` skill: one self-contained `dashboard.html` (lint verdict, inbox backlog, 7/9 budget with slot chips, area census, recent files); verified on empty + populated trees, zero external refs, cp949-safe console. Walls resolved: renumbering = deliberate migration (SPEC lifecycle updated); apps allowed, static HTML first.
 
 ## Current State
-- The design instance lives here (no corporate data); the populated instance will live on the work machine (structure by copy, skills via astra later). Both checkers are stdlib-only so they run at work too.
-- Gate: `python tests/check_structure.py .` + fixture sort → `check_triage.py` — both green 2026-07-04.
-- No remote (work has no GitHub). Two OPEN walls await user confirmation (no-renumbering permanence, no-app-ever — see `.gravity/IMPLEMENTATION_PLAN.md` Open questions).
+- The design instance lives here (no corporate data); the populated instance will live on the work machine (structure by copy, skills via astra later). All scripts are stdlib-only so they run at work too.
+- Gate: `python tests/check_structure.py .` + fixture sort → `check_triage.py` — both green 2026-07-04. Dashboard regen: `python skills/orbit-dashboard/generate.py` (output gitignored).
+- No remote (work has no GitHub).
 
 ## Next Step
-- User picks the next slice — `daily-note` skill is the top `next` candidate (likely mints a `notes` domain via the gate); also confirm the two OPEN walls.
+- User picks the next slice — `daily-note` skill is the top `next` candidate (likely mints a `notes` domain via the gate).

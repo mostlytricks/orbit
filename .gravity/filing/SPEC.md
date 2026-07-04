@@ -29,8 +29,9 @@ awaiting triage.
 | `40-projects/` | Everything belonging to a named project, one folder per project: `40-projects/<project-slug>/` — plans, meeting notes, vendor docs, status reports. | Recurring personal reports (→ 10). |
 | `50-policy/` | Corporate policy, security policy, compliance, official process documents. | Your own conventions (→ 20 as a standard). |
 
-<!-- Retired areas stay in this table with "(retired YYYY-MM-DD)" in the What-belongs cell
-     and no folder on disk — the number is a tombstone, never reused. check_structure.py
+<!-- Retired or renumbered areas stay in this table with "(retired YYYY-MM-DD)" or
+     "(renumbered → NN, YYYY-MM-DD)" in the What-belongs cell and no folder on disk —
+     the number is a tombstone, never reused for a different subject. check_structure.py
      skips such rows. -->
 
 ## Minimal Shape
@@ -60,9 +61,10 @@ The top layer is the product; width is expensive, depth is cheap.
 
 - **Budget:** the numbering scheme is the governor — two digits, multiples of 10, `00` reserved for inbox. The lint **warns at 7 areas and fails at 9**: past 7±2 the map stops fitting in a head and decision-procedure steps become ambiguous. The answer to "I need a new area" is almost always **a subfolder inside an existing area**.
 - **Add** — allowed only if (a) a real set of files would move there *immediately*, and (b) its What-belongs row overlaps no existing area. New area takes a free multiple-of-10 slot.
-- **Rename** — the name may clarify; **the number never changes** (10 years of muscle memory and links depend on it).
+- **Rename** — the name may clarify; the number stays (cheap, safe).
+- **Renumber** — allowed, but as a **deliberate migration**, never casually: follow the change order, move the whole folder in one step, and tombstone the old number in the Areas table (`(renumbered → NN, YYYY-MM-DD)`) so old links and muscle memory stay traceable.
 - **Repurpose / merge / split** — allowed only after every affected file is rehomed first; never orphans.
-- **Retire** — files rehomed, folder removed, **the number is never reused**: the row stays in the Areas table as a tombstone `(retired YYYY-MM-DD)` so year-8 you knows why a number is missing.
+- **Retire** — files rehomed, folder removed, the number tombstoned `(retired YYYY-MM-DD)`; **never reuse a tombstoned number for a different subject** — year-8 you must be able to trust old references.
 - **Change order — contract before tree:** 1. edit this SPEC (table + tombstones) → 2. create/rename folders to match → 3. run `check_structure.py` → green. The tree is never ahead of the contract.
 
 ## Naming
@@ -79,7 +81,7 @@ The top layer is the product; width is expensive, depth is cheap.
 - `[test:check_structure]` area count ≤ 8 passes (warning from 7); the 9th area fails the lint.
 - `[test:check_triage]` triage never loses a file: files before = files after; unclear files remain in `00-inbox/`.
 - `[review]` moves are renames, never copy+delete; collisions get `-2`, `-3`, … suffixes, never overwrite.
-- `[review]` a rename never changes an area's number; a retired number is never reused.
+- `[review]` renumbering is a deliberate migration (change order + tombstone), and a tombstoned number is never reused for a different subject.
 - `[review]` a new area requires immediate files + a non-overlapping What-belongs row.
 - `[—]` the change order (contract → tree → lint) is mandatory for any restructure.
 

@@ -5,7 +5,7 @@
 
 ## Status right now
 
-Two slices shipped 2026-07-04: the **triage loop** (tree + contract + `file-triage` + fixture gate) and the **restructure loop** (`.gravity/` adoption, contract → `filing/SPEC.md` with tagged rules, `area-architect` skill, `check_structure.py` structure lint). Next slice: user's pick — see queue.
+Three slices shipped 2026-07-04: the **triage loop** (tree + contract + `file-triage` + fixture gate), the **restructure loop** (`.gravity/` adoption, `filing/SPEC.md` with tagged rules, `area-architect`, structure lint), and the **dashboard** (`orbit-dashboard` skill → self-contained `dashboard.html`). Both wall questions answered: renumbering allowed as deliberate migration; apps allowed (static HTML first). Next slice: user's pick — see queue.
 
 ## Domain status spine
 
@@ -29,22 +29,21 @@ Rolling lanes (growing project — skills accrete, phases would be fake). Rules:
 | later | Per-area README.md files for human browsing at work | ○ |
 | later | Deep-archive procedure for old years (see SPEC OPEN) | ○ |
 
-Shipped (details in git history): **triage loop** — tree + contract + file-triage skill + fixture gate (2026-07-04) · **restructure loop** — `.gravity/` adoption + `filing/SPEC.md` (tagged rules, lifecycle & budget) + area-architect skill + structure lint (2026-07-04).
+Shipped (details in git history): **triage loop** — tree + contract + file-triage skill + fixture gate (2026-07-04) · **restructure loop** — `.gravity/` adoption + `filing/SPEC.md` (tagged rules, lifecycle & budget) + area-architect skill + structure lint (2026-07-04) · **dashboard** — orbit-dashboard skill, one self-contained HTML page (lint verdict, inbox backlog, budget, census, recent files), verified on empty + populated trees (2026-07-04).
 
 ## Locked decisions
 
 - **Numbered areas, gaps of 10, kebab-case** — insertable later without renumbering; CLI/git/agent-safe names.
 - **`.gravity/filing/SPEC.md` is the seam** — all sorting/restructuring behavior lives in the contract; skills contain no filing rules of their own.
 - **Never lose a file** — moves only, unclear stays in inbox with a question (mission wall).
-- **Top-layer budget is mechanical** — the structure lint warns at 7 areas, fails at 9; numbers never change and are never reused (tombstones in the Areas table).
+- **Top-layer budget is mechanical** — the structure lint warns at 7 areas, fails at 9. Renumbering is *allowed* but only as a deliberate migration (change order + tombstone); a tombstoned number is never reused for a different subject.
 - **Design here, deploy at work** — no corporate data in this repo; skills use relative paths; structure travels by copy, skills via astra.
 - **Hybrid git** — skeleton tracked, payload binaries ignored (`tests/`, `skills/` whitelisted).
-- **No runtime app for now** — Claude Code is the interface; the only code is the two stdlib gate scripts.
+- **No server app yet** — Claude Code is the primary interface; app surfaces are generated static self-contained HTML (the dashboard). A real server app is a maybe-later, not a wall.
 - **`.gravity/` adopted early on purpose** — orbit's root is the product; docs may not pile up on the layer the budget protects.
 
 ## Open questions
 
-- OPEN: walls not yet confirmed by user — **no renumbering ever** is now a SPEC rule `[review]` (confirm it's truly permanent) and **no app, ever** (is a UI a betrayal or a maybe-later?).
 - OPEN: the real work-machine root path + how the populated instance stays in sync with design changes made here.
 - OPEN: (SPEC) deep-archive policy for old years; per-system subfolders under `30-operations/`.
 

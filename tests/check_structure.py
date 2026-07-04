@@ -31,7 +31,8 @@ def contract_areas(spec: Path) -> tuple[list[str], list[str]]:
     for line in spec.read_text(encoding="utf-8").splitlines():
         m = AREA_ROW.match(line)
         if m:
-            (retired if "retired" in line.lower() else active).append(m.group(1))
+            tombstone = "retired" in line.lower() or "renumbered" in line.lower()
+            (retired if tombstone else active).append(m.group(1))
     return active, retired
 
 
