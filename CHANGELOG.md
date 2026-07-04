@@ -7,6 +7,8 @@ is separate and lives in `CLAUDE.md`.
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-07-05
+
 ### Added
 - **`waypoint` domain — curated-directory manifests & a cheap index.** A deep directory
   opts into being findable by holding a `_waypoint.md` manifest (YAML: purpose, keywords,
