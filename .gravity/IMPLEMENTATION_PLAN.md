@@ -23,7 +23,7 @@ Rolling lanes (growing project — skills accrete, phases would be fake). Rules:
 
 | Lane | Slice | Status |
 |---|---|---|
-| now | OPEN: user picks the next slice (candidates below) | ○ |
+| now | `file-find` skill — retrieval: predict-the-home via the SPEC decision procedure, narrow-to-wide search, miss-as-filing-diagnosis. The acceptance test of "ten years later it's still findable". | ◔ drafted (SKILL.md done; gate `tests/fixture-find/` + `check_find.py` pending) |
 | next | `daily-note` skill — templated daily worklog auto-placed in `10-daily/YYYY/MM/` (likely mints a `notes` domain) | ○ |
 | later | `weekly-report` skill — assemble the week's report from daily notes | ○ |
 | later | **waypoint**: per-directory dashboard view (select box in `orbit-dashboard`, or a sub-page) — the "feature 1" slice; `build_index.py` already computes the counts | ○ |

@@ -31,6 +31,7 @@ No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain 
 | A skill's procedure (not filing rules — those live in the SPEC) | `skills/<name>/SKILL.md` |
 | The dashboard's panels or look | `skills/orbit-dashboard/generate.py` (HTML+CSS inline; keep zero external resources) |
 | A process guideline (approval chain / handoff pipeline) | Edit its JSON in `skills/process-architect/examples/`, then `python skills/process-architect/generate.py <def>.json`; the `*.process.html` is generated, never hand-edited |
+| How files are *found* (retrieval, miss diagnosis) | `skills/file-find/SKILL.md` (draft) — lookup derives from the SPEC's decision procedure; if find and triage disagree, fix the SPEC, not the skill |
 | A per-area browsing card (`NN-*/README.md`) | It's a *generated artifact* — edit `.gravity/filing/SPEC.md` (areas table), then `python skills/area-architect/generate_cards.py .`; never hand-edit a card |
 | Finding a curated deep directory ("where is X?"), or the manifest/index format | `.gravity/waypoint/SPEC.md` (the `locate` skill executes it; never `ls` a big dir to find things) |
 | What's next / slice queue | `.gravity/IMPLEMENTATION_PLAN.md` |
@@ -92,7 +93,7 @@ All three are walls, not eyeballing. The filing *rules themselves* stay `[review
 ## Entry Points
 
 - `.gravity/filing/SPEC.md` — **the architectural seam**: the one contract that both the human filing habit and every sorting/restructuring skill derive from. Change filing behavior here, never inside a skill.
-- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `area-architect` restructures, `orbit-dashboard` monitors, `locate` finds curated dirs cheaply, `process-architect` documents how a process works). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
+- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `file-find` retrieves — draft, `area-architect` restructures, `orbit-dashboard` monitors, `locate` finds curated dirs cheaply, `process-architect` documents how a process works). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
 - `00-inbox/ … 50-policy/` — the six areas (meanings in the SPEC).
 - `tests/` — fixture inbox + fixture source roots + fixture waypoint tree + the four mechanical checkers (structure, triage, scout, waypoint — the gate).
 

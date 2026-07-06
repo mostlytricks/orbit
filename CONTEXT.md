@@ -20,4 +20,4 @@ Last touched: 2026-07-05
 - Design instance only; the `origin` → github.com/mostlytricks/orbit remote is PUBLIC — never commit corporate content (the area wall enforces it).
 
 ## Next Step
-- Merge **PR #1** (0.3.0), then tag `v0.3.0` on `main`. After that, user picks the next slice — candidates: run `process-architect` on a *real* process; exercise `file-scout` on the real Desktop/Downloads; or the `daily-note` skill (likely mints a `notes` domain via the gate).
+- Merge **PR #1** (0.3.0 + the `file-find` draft as unreleased), tag `v0.3.0` on `main`. Then finish `file-find`: user reviews the drafted SKILL.md, build the gate (`tests/fixture-find/` + `check_find.py` — hits, near-misses, and true misses with the right diagnosis), run it, promote the skill out of draft.

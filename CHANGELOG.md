@@ -7,6 +7,15 @@ is separate and lives in `CLAUDE.md`.
 
 ## [Unreleased]
 
+### Added
+- **`file-find` skill (draft)** — retrieval, the flip side of `file-triage`: parse the
+  ask into the SPEC's filing signals, predict the file's one home by running the
+  decision procedure forward, search narrow-to-wide (predicted home → name → content →
+  inbox/provenance), present ranked candidates with evidence. Read-only; a miss is
+  diagnosed (never-ingested / misfiled / ambiguous contract) and routed to the right
+  skill, never shrugged off. Draft status: the mechanical gate (`tests/fixture-find/` +
+  `tests/check_find.py`) is specified in the SKILL but not yet built.
+
 ## [0.4.0] - 2026-07-05
 
 ### Added
