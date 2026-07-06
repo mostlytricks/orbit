@@ -66,4 +66,4 @@ cp -r tests/fixture-find/tree/. <scratch2>/    # planted tree incl. one misfile
 python tests/check_find.py <scratch2>
 ```
 
-Last green: 2026-07-06 (all four checkers PASS; each verified to FAIL on planted violations).
+Last green: 2026-07-06 (all five checkers PASS; each verified to FAIL on planted violations).

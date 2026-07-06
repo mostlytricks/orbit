@@ -21,9 +21,11 @@ this skill carries none of its own.
 3. **Answer with the path(s).** Return the winning curated-directory path and its
    purpose. For more detail, open *at most* the single matched `_waypoint.md` — never list
    the directory's contents to answer "where is X".
-4. **No match?** Say so and offer to (a) rebuild the index, or (b) curate the likely
-   directory — add an `_waypoint.md` per the SPEC's "When to curate" gate. Never guess a
-   path by scanning the payload.
+4. **No match?** Say so and offer to (a) rebuild the index, (b) curate the likely
+   directory — add an `_waypoint.md` per the SPEC's "When to curate" gate — or (c) hand
+   off to `file-find` for a contract-driven, file-level deep search whose miss comes
+   back *diagnosed* (never ingested / misfiled / ambiguous contract). Never guess a
+   path by scanning the payload yourself.
 
 ## Maintain the index
 

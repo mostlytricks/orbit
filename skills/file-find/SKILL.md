@@ -15,6 +15,13 @@ address**, not bad luck.
 Read-only by contract. Find never moves, renames, or deletes anything — a misfiled
 file it stumbles on is *reported* as a triage candidate, never fixed silently.
 
+**Division of labor with `locate`:** `locate` (waypoint domain) is the cheap first
+hop — it routes to the right *curated directory* from `waypoint-index.md` without
+touching payload. `file-find` is the *file-level* deep pass: use it when the index
+can't answer, when the ask names a specific file, or when the miss itself needs
+diagnosing. A directory-level ask ("which folder holds X?") is `locate`'s job
+entirely — don't spend a deep search on it.
+
 ## Procedure
 
 ### 1 — Parse the ask into filing signals
@@ -40,6 +47,9 @@ makes a miss diagnostic instead of noise.
 
 ### 3 — Search narrow → wide (stop as soon as you're confident)
 
+0. **The waypoint index, if present** (`waypoint-index.md` at the root): a curated
+   row matching the ask's keywords shortlists the directory before any walking —
+   `locate`'s index is free evidence; never re-derive what it already knows.
 1. **The predicted home**, using the naming conventions as the index: date
    prefixes (`YYYY-MM-DD-`, `YYYY-Www-`), kebab topic words, `YYYY/MM/` nesting,
    project slugs. This resolves most asks in one directory listing.

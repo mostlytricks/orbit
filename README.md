@@ -49,8 +49,11 @@ Open Claude Code at the orbit root and ask. The daily loop:
    source).
 2. **Triage** — `file-triage` sorts the inbox into areas per the contract; anything ambiguous
    stays put with a question.
-3. **Locate** — `locate` answers "where's the 2026 design guideline?" from a cheap index of
-   curated directories, *without* scanning giant folders.
+3. **Find** — two layers. `locate` answers "where's the 2026 design guideline?" from a cheap
+   index of curated directories, *without* scanning giant folders. When the index can't
+   answer — or you need the exact file — `file-find` runs the filing contract in reverse:
+   it predicts the file's one home, searches narrow-to-wide, and diagnoses a miss
+   (never ingested / misfiled / ambiguous contract) instead of shrugging.
 4. **Monitor** — `orbit-dashboard` renders a tree-health page (cleanup candidates, duplicates,
    size and age):
 
@@ -59,7 +62,7 @@ Open Claude Code at the orbit root and ask. The daily loop:
    ```
 
 Restructuring the areas themselves is `area-architect`; documenting a business process is
-`process-architect`. All six skills live under `skills/<name>/SKILL.md` and are discovered by
+`process-architect`. All seven skills live under `skills/<name>/SKILL.md` and are discovered by
 Claude Code and Codex alike.
 
 ## Design here, deploy at work
@@ -84,6 +87,6 @@ paths only, so the structure travels by copy.
 
 ## Status
 
-**v0.4.0** — two domains (`filing`, `waypoint`) and six skills, with every mechanical gate a
+**v0.4.0** — two domains (`filing`, `waypoint`) and seven skills, with every mechanical gate a
 real wall (`tests/check_*.py`, all stdlib-only so they run on the work instance too). Built on
 the *gravity* workspace doc-system (v1.4). Full history in [`CHANGELOG.md`](CHANGELOG.md).

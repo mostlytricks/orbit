@@ -31,7 +31,7 @@ No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain 
 | A skill's procedure (not filing rules — those live in the SPEC) | `skills/<name>/SKILL.md` |
 | The dashboard's panels or look | `skills/orbit-dashboard/generate.py` (HTML+CSS inline; keep zero external resources) |
 | A process guideline (approval chain / handoff pipeline) | Edit its JSON in `skills/process-architect/examples/`, then `python skills/process-architect/generate.py <def>.json`; the `*.process.html` is generated, never hand-edited |
-| How files are *found* (retrieval, miss diagnosis) | `skills/file-find/SKILL.md` — lookup derives from the SPEC's decision procedure; if find and triage disagree, fix the SPEC, not the skill |
+| How a *file* is found (file-level retrieval, miss diagnosis; cheap *directory* routing is `locate`'s — row below) | `skills/file-find/SKILL.md` — lookup derives from the SPEC's decision procedure; if find and triage disagree, fix the SPEC, not the skill |
 | A per-area browsing card (`NN-*/README.md`) | It's a *generated artifact* — edit `.gravity/filing/SPEC.md` (areas table), then `python skills/area-architect/generate_cards.py .`; never hand-edit a card |
 | Finding a curated deep directory ("where is X?"), or the manifest/index format | `.gravity/waypoint/SPEC.md` (the `locate` skill executes it; never `ls` a big dir to find things) |
 | What's next / slice queue | `.gravity/IMPLEMENTATION_PLAN.md` |

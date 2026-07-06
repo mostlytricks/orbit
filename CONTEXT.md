@@ -6,19 +6,19 @@
      reality, Next Step = one item. Trim when Completed > ~6 bullets or file > ~80 lines.
      See workspace CLAUDE.md §6 "Keeping CONTEXT.md small". -->
 
-Last touched: 2026-07-05
+Last touched: 2026-07-06
 
 ## Completed
-- **`file-find` skill (retrieval loop closed)** — the mission's "still findable" half now has a skill *and* a wall: predict-the-home via the SPEC decision procedure, narrow-to-wide search, ranked candidates with evidence, miss-as-diagnosis (never-ingested / misfiled / ambiguous-contract). Gate: `tests/fixture-find/` planted tree + 7 queries + `check_find.py` (exact hits, no silent pick, miss diagnosis, misfile flag, md5 read-only wall); PASS + FAIL-on-planted-violations verified.
-- **`process-architect` skill + release 0.3.0** — first non-filing skill: documents *how a process works* (approval chains / handoff pipelines) as one self-contained HTML guideline. Interview procedure + health rubric in `SKILL.md`; `generate.py` renders a tracked JSON definition → disposable gitignored `*.process.html` (data-in/HTML-out like the dashboard). Ships two sample defs (fake purchase-order chain; orbit's own file-fix process). Wired into `AGENTS.md`, CLAUDE.md router + entry points, `.gitignore`, plan. `VERSION` 0.2.0→0.3.0, `CHANGELOG` entry. Out as **PR #1**.
-- **Area browsing cards** — `skills/area-architect/generate_cards.py` writes one `NN-*/README.md` per area *from the SPEC areas table* (single source, no drift). Generated artifact: gitignored by the area wall (like `dashboard.html`), never hand-edited; regeneration is the last step of the area-architect restructure procedure.
+- **`file-find` skill + seam with `locate`** — file-level retrieval, walled: predict-the-home via the SPEC decision procedure run forward, narrow-to-wide search (waypoint index consulted first), ranked candidates with evidence, miss-as-diagnosis (never-ingested / misfiled / ambiguous-contract). Gate: `tests/fixture-find/` planted tree + 7 queries + `check_find.py`; PASS + FAIL-on-planted-violations verified. Cross-referenced with `locate` in both SKILLs: locate = cheap directory routing from the index, file-find = file-level deep pass + diagnosis. Rebased onto post-waypoint `main`; out as **PR #2**.
+- **waypoint domain (birth)** — `.gravity/waypoint/SPEC.md`: a deep directory opts in via `_waypoint.md` (purpose/keywords/types); `skills/locate/build_index.py` → one root `waypoint-index.md`; `locate` answers "where is X?" from the index without ever `ls`-ing payload. Walled by `tests/check_waypoint.py` + fixture. Shipped as **v0.4.0**; README added as **v0.4.1**.
+- **`process-architect` skill** — interviews a process into health (rubric), renders JSON → self-contained HTML guideline. Shipped as **v0.3.0** via PR #1 (merged).
 
 ## Current State
 - The design instance lives here (no corporate data); the populated instance will live on the work machine (structure by copy, skills via astra later). All scripts are stdlib-only so they run at work too.
-- Gate (all green 2026-07-06): `python tests/check_structure.py .` + fixture sort → `check_triage.py` + fixture scout → `check_scout.py` + fixture find → `check_find.py`. Dashboard regen: `python skills/orbit-dashboard/generate.py` (output gitignored). After clone/copy, run `python .claude/setup-skills.py` to re-wire Claude Code skill discovery.
-- Six skills: five filing-side — `file-scout` (intake) → `file-triage` (sort) → `file-find` (retrieve) → `area-architect` (restructure, also emits area cards) → `orbit-dashboard` (monitor); plus `process-architect` (documents how a process works). The filing skills derive from `.gravity/filing/SPEC.md`; none carry filing rules.
-- Three generated, gitignored artifacts regenerate at work: `dashboard.html` (`skills/orbit-dashboard/generate.py`), the per-area `README.md` cards (`skills/area-architect/generate_cards.py`), and `*.process.html` process guidelines (`skills/process-architect/generate.py` from a JSON def).
-- Design instance only; the `origin` → github.com/mostlytricks/orbit remote is PUBLIC — never commit corporate content (the area wall enforces it).
+- Gate — five mechanical walls: `check_structure.py .` + fixture sort→`check_triage.py` + fixture scout→`check_scout.py` + `check_waypoint.py tests/fixture-waypoint` + fixture find→`check_find.py`. Structure/find green 2026-07-06; waypoint 2026-07-05; triage/scout 2026-07-04. After clone/copy, run `python .claude/setup-skills.py`.
+- Seven skills: the filing chain (`file-scout`→`file-triage`→`file-find`→`area-architect`→`orbit-dashboard`) + `locate` (waypoint navigation) + `process-architect` (process guidelines). Retrieval is two-layer by design: `locate` routes to curated directories from the cheap index; `file-find` pinpoints files and diagnoses misses. Skills carry no filing/waypoint rules — the SPECs do.
+- Four generated, gitignored artifacts regenerate at work: `dashboard.html`, the per-area `README.md` cards, `*.process.html` guidelines, and `waypoint-index.md`.
+- Design instance only; `origin` → github.com/mostlytricks/orbit is PUBLIC — never commit corporate content (area wall enforces it). `main` is at **v0.4.1**, pushed with tags; PR #1 merged.
 
 ## Next Step
-- Merge **PR #1** (0.3.0 + `file-find` complete as unreleased), tag `v0.3.0` on `main`. Then user picks the next slice — candidates: `daily-note` (queued `next`), run `process-architect` on a real process, or exercise `file-scout`/`file-find` on the real work tree.
+- Review + merge **PR #2** (`file-find` + locate seam, sitting in `[Unreleased]`) — cut it as **v0.5.0** on merge. Then pick the next slice: `daily-note`, the waypoint per-dir dashboard view, or a real-Desktop `file-scout` shakedown.
