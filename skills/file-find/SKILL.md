@@ -90,11 +90,37 @@ which is newest and note the duplication (dashboard's territory to quantify).
 - **Never leak the provenance manifest.** It may name sensitive machine paths;
   quote from it only what the answer needs, never dump it.
 
-## Gate (planned — not yet built)
+## Gate
 
-A fixture tree (`tests/fixture-find/`) with planted files plus a query set with
-expected answers: hits that must resolve to exact paths, near-misses that must
-return ranked candidates, and true misses that must produce the right diagnosis
-(never-ingested vs misfiled vs ambiguous). `tests/check_find.py` verifies the
-skill's written answer report mechanically, like `check_triage` verifies a sorted
-tree. Until that wall exists this skill is a draft.
+The wall, like triage's: a planted fixture tree + queries with known answers,
+verified mechanically.
+
+```bash
+cp -r tests/fixture-find/tree/. <scratch>/
+# run this skill on <scratch> over tests/fixture-find/queries.json,
+# writing <scratch>/find-report.json
+python tests/check_find.py <scratch>
+```
+
+The report is one JSON object, one entry per query:
+
+```jsonc
+{ "answers": [ {
+    "id": "q1",
+    "verdict": "found",                 // "found" | "miss"
+    "candidates": ["30-operations/dr-recovery-runbook.md"],  // ranked, best first
+    "predicted": "30-operations/",      // the step-2 hypothesis, always stated
+    "evidence": "name match in predicted home",              // why, one line
+    "diagnosis": null,                  // on miss: "never-ingested" | "misfiled"
+                                        //          | "ambiguous-contract"
+    "misfiled": { "path": "...", "predicted": "..." },       // when a hit sits in
+                                        // a home the decision procedure rejects
+    "question": null                    // on miss: the one-line question row
+} ] }
+```
+
+The checker enforces the skill's own walls: exact hits must be the top candidate,
+the ambiguous ask must return *all* plausible candidates (no silent pick), the
+true miss must carry the right diagnosis plus a home prediction, the planted
+misfile must be found *and* flagged, no candidate may name a nonexistent path,
+and the tree must be byte-identical afterwards (read-only, verified by md5).

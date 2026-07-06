@@ -1,0 +1,2 @@
+Vendor security scan results 2026-06-30 (fake fixture)
+Findings: 2 medium, 5 low. Full report attached in the portal.

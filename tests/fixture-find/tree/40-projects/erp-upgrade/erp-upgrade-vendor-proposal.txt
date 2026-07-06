@@ -1,0 +1,3 @@
+ERP upgrade - vendor proposal (fake fixture)
+Vendor: Initech Ltd. Pricing: module licensing at list minus 12 percent,
+implementation fixed-fee. Initech pricing valid until 2024-03-31.
