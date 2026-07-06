@@ -1,15 +1,17 @@
 # SPEC — filing (the orbit filing contract)
 
 The compact agent-loadable contract for the `filing` domain: **how a file arrives**,
-**where it goes**, and **what the area tree may look like**. Skills (`file-scout`,
-`file-triage`, `area-architect`) execute this contract and carry no rules of their own —
-change filing behavior *here*. Humans follow the same tables when filing by hand.
+**where it goes**, **how it is found again**, and **what the area tree may look
+like**. Skills (`file-scout`, `file-triage`, `file-find`, `area-architect`) execute
+this contract and carry no rules of their own — change filing behavior *here*.
+Humans follow the same tables when filing by hand.
 
 **Gate:**
 ```bash
 python tests/check_structure.py .            # structure lint: tree ↔ this contract, numbering, budget
 python tests/check_triage.py <scratch>       # behavior: fixture sort per the decision procedure
 python tests/check_scout.py <scratch>        # behavior: intake from fixture source roots
+python tests/check_find.py <scratch>         # behavior: retrieval on the planted fixture tree
 ```
 
 ## Core Definition
@@ -148,4 +150,4 @@ The top layer is the product; width is expensive, depth is cheap.
 
 ---
 
-Skills executing this contract: `skills/file-scout/` (intake from the wild), `skills/file-triage/` (sorting), `skills/area-architect/` (restructuring).
+Skills executing this contract: `skills/file-scout/` (intake from the wild), `skills/file-triage/` (sorting), `skills/file-find/` (retrieval — the decision procedure run forward over an ask), `skills/area-architect/` (restructuring).

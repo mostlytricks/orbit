@@ -48,7 +48,7 @@ Shipped (details in git history): **file-find (retrieval loop)** — SKILL (pars
 
 - OPEN: the real work-machine root path + how the populated instance stays in sync with design changes made here.
 - OPEN: (SPEC) deep-archive policy for old years; per-system subfolders under `30-operations/`.
-- OPEN: where rendered process guidelines live in the tree — leaning toward a dedicated `process` area/domain (would run the domain gate + SPEC change order). Deferred: today the JSON definitions live beside `process-architect`; the HTML is disposable. Revisit once there are several real processes.
+- OPEN (recommendation made, awaiting user sign-off — filing rules are `[review]`): where process guidelines live. Analysis says **no new area**: `50-policy/`'s What-belongs row already claims "official process documents", so a `60-process/` area would violate the add rule (non-overlap) and spend the 7th budget slot. Recommended: `50-policy/processes/<slug>.json` + generated `<slug>.process.html` beside it (flat pair, kebab slug, no date prefix — living documents versioned by `meta.version`); *personal* routine conventions go to `20-design/` per 50-policy's NOT column. Fake samples stay in `skills/process-architect/examples/`. If accepted: add one line to 50-policy's What-belongs row naming `processes/` — a row clarification, not a lifecycle event.
 
 ## The gate
 
