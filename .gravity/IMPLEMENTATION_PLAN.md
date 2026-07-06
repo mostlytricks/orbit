@@ -1,7 +1,7 @@
 # orbit — Implementation plan & resume sheet
 
 > One-line working scenario: a messy directory goes in, every file lands in its one home in the numbered tree (or stays in inbox with a question), and ten years later it's still findable.
-> Branch `main` · last updated 2026-07-04.
+> Branch `main` · last updated 2026-07-06.
 
 ## Status right now
 
@@ -11,7 +11,7 @@ Shipped 2026-07-04: the **triage loop** (tree + contract + `file-triage` + fixtu
 
 | Domain | Status | Docs |
 |---|---|---|
-| filing | ◑ building (contract + three skills — scout/triage/architect — + three walls; intake fresh) | `filing/SPEC.md` |
+| filing | ◑ building (contract + four skills — scout/triage/find/architect — + four walls; retrieval fresh) | `filing/SPEC.md` |
 | waypoint | ◑ building (manifest schema + `build_index.py` generator + `locate` skill + `check_waypoint` wall; per-dir dashboard pending) | `waypoint/SPEC.md` |
 
 ## Slice queue
@@ -31,7 +31,7 @@ Rolling lanes (growing project — skills accrete, phases would be fake). Rules:
 | later | Publish orbit skills to astra (`astra-publish` loop — dogfood both projects) | ○ |
 | later | Deep-archive procedure for old years (see SPEC OPEN) | ○ |
 
-Shipped (details in git history): **process-architect skill** — interview-to-define + JSON→self-contained-HTML generator for process guidelines (approval chains / handoff pipelines), health rubric in the SKILL, `*.process.html` gitignored like `dashboard.html`; shipped with two fake/meta sample definitions (`purchase-order`, `orbit-file-fix`) (2026-07-05) · **triage loop** — tree + contract + file-triage skill + fixture gate (2026-07-04) · **restructure loop** — `.gravity/` adoption + `filing/SPEC.md` (tagged rules, lifecycle & budget) + area-architect skill + structure lint (2026-07-04) · **dashboard** — orbit-dashboard skill, one self-contained HTML page, verified on empty + populated trees (2026-07-04) · **dashboard v2 (junk hunt)** — pro redesign (KPI strip, sticky header, SVG type-donut) + cleanup candidates (>5 MB & 180d+ stale, size×staleness rank), md5 exact-duplicate groups + dupe-waste KPI, age profile; hunting guide in the SKILL; planted-junk detection verified (2026-07-04) · **intake loop** — `file-scout` skill + SPEC "Intake" section (named sources, dump=move/live=copy, dedup, provenance) + `check_scout.py` gate on fake source roots; PASS + FAIL-on-violation (junk ingested, live moved, unrecorded) verified (2026-07-04) · **area browsing cards** — `skills/area-architect/generate_cards.py` emits one `NN-*/README.md` per area *from the SPEC areas table* (single source, zero drift), gitignored like `dashboard.html`; regeneration wired into the area-architect restructure procedure (2026-07-05) · **waypoint domain (birth)** — `.gravity/waypoint/SPEC.md` (curated-directory manifests + the read-index-never-scan-payload invariant), `skills/locate/` with `build_index.py` (scan every `_waypoint.md` → one root `waypoint-index.md`), `tests/check_waypoint.py` + `tests/fixture-waypoint/` wall; PASS on 2-manifest fixture + FAIL-on-missing-purpose verified; index gitignored (2026-07-05).
+Shipped (details in git history): **file-find (retrieval loop)** — SKILL (parse the ask into filing signals, predict-the-home via the SPEC decision procedure run forward, narrow-to-wide search, ranked candidates with evidence, miss-as-diagnosis: never-ingested/misfiled/ambiguous-contract) + `tests/fixture-find/` planted tree (incl. a deliberate misfile + inbox straggler + provenance manifest) + 7-query set + `check_find.py` (exact hits, no-silent-pick ambiguity, miss diagnosis, misfile flag, md5 read-only wall); PASS + FAIL-on-planted-violations verified (2026-07-06) · **process-architect skill** — interview-to-define + JSON→self-contained-HTML generator for process guidelines (approval chains / handoff pipelines), health rubric in the SKILL, `*.process.html` gitignored like `dashboard.html`; shipped with two fake/meta sample definitions (`purchase-order`, `orbit-file-fix`) (2026-07-05) · **triage loop** — tree + contract + file-triage skill + fixture gate (2026-07-04) · **restructure loop** — `.gravity/` adoption + `filing/SPEC.md` (tagged rules, lifecycle & budget) + area-architect skill + structure lint (2026-07-04) · **dashboard** — orbit-dashboard skill, one self-contained HTML page, verified on empty + populated trees (2026-07-04) · **dashboard v2 (junk hunt)** — pro redesign (KPI strip, sticky header, SVG type-donut) + cleanup candidates (>5 MB & 180d+ stale, size×staleness rank), md5 exact-duplicate groups + dupe-waste KPI, age profile; hunting guide in the SKILL; planted-junk detection verified (2026-07-04) · **intake loop** — `file-scout` skill + SPEC "Intake" section (named sources, dump=move/live=copy, dedup, provenance) + `check_scout.py` gate on fake source roots; PASS + FAIL-on-violation (junk ingested, live moved, unrecorded) verified (2026-07-04) · **area browsing cards** — `skills/area-architect/generate_cards.py` emits one `NN-*/README.md` per area *from the SPEC areas table* (single source, zero drift), gitignored like `dashboard.html`; regeneration wired into the area-architect restructure procedure (2026-07-05) · **waypoint domain (birth)** — `.gravity/waypoint/SPEC.md` (curated-directory manifests + the read-index-never-scan-payload invariant), `skills/locate/` with `build_index.py` (scan every `_waypoint.md` → one root `waypoint-index.md`), `tests/check_waypoint.py` + `tests/fixture-waypoint/` wall; PASS on 2-manifest fixture + FAIL-on-missing-purpose verified; index gitignored (2026-07-05).
 
 ## Locked decisions
 
@@ -48,7 +48,7 @@ Shipped (details in git history): **process-architect skill** — interview-to-d
 
 - OPEN: the real work-machine root path + how the populated instance stays in sync with design changes made here.
 - OPEN: (SPEC) deep-archive policy for old years; per-system subfolders under `30-operations/`.
-- OPEN: where rendered process guidelines live in the tree — leaning toward a dedicated `process` area/domain (would run the domain gate + SPEC change order). Deferred: today the JSON definitions live beside `process-architect`; the HTML is disposable. Revisit once there are several real processes.
+- OPEN (recommendation made, awaiting user sign-off — filing rules are `[review]`): where process guidelines live. Analysis says **no new area**: `50-policy/`'s What-belongs row already claims "official process documents", so a `60-process/` area would violate the add rule (non-overlap) and spend the 7th budget slot. Recommended: `50-policy/processes/<slug>.json` + generated `<slug>.process.html` beside it (flat pair, kebab slug, no date prefix — living documents versioned by `meta.version`); *personal* routine conventions go to `20-design/` per 50-policy's NOT column. Fake samples stay in `skills/process-architect/examples/`. If accepted: add one line to 50-policy's What-belongs row naming `processes/` — a row clarification, not a lifecycle event.
 
 ## The gate
 
@@ -61,6 +61,9 @@ cp -r tests/fixture-sources <scratch>/sources  # + empty 00-inbox/
 # run the file-scout skill on <scratch> (desktop+downloads=dump, onedrive-sync=live)
 python tests/check_scout.py <scratch>
 python tests/check_waypoint.py tests/fixture-waypoint   # waypoint: curated-directory manifest schema
+cp -r tests/fixture-find/tree/. <scratch2>/    # planted tree incl. one misfile
+# run the file-find skill on <scratch2> over tests/fixture-find/queries.json
+python tests/check_find.py <scratch2>
 ```
 
-Last green: 2026-07-04 (all three checkers PASS; each verified to FAIL on planted violations).
+Last green: 2026-07-06 (all five checkers PASS; each verified to FAIL on planted violations).

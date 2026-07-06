@@ -1,0 +1,9 @@
+[
+  { "id": "q1", "ask": "the DR recovery runbook" },
+  { "id": "q2", "ask": "the vendor proposal for the ERP upgrade" },
+  { "id": "q3", "ask": "the document that mentions Initech pricing" },
+  { "id": "q4", "ask": "the DR material we wrote in 2023" },
+  { "id": "q5", "ask": "the network topology diagram from the old fileserver" },
+  { "id": "q6", "ask": "the patch tuesday runbook" },
+  { "id": "q7", "ask": "the vendor security scan from the end of June 2026" }
+]
