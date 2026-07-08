@@ -17,7 +17,7 @@ import re
 import sys
 from pathlib import Path
 
-INFRA = {".git", ".gravity", ".claude", "skills", "tests", "docs"}
+INFRA = {".git", ".github", ".gravity", ".claude", "skills", "tests", "docs", "app"}
 AREA_ROW = re.compile(r"^\|\s*`(\d{2}-[a-z0-9-]+)/`\s*\|")
 AREA_DIR = re.compile(r"^\d")
 

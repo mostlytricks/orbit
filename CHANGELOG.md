@@ -8,6 +8,19 @@ is separate and lives in `CLAUDE.md`.
 ## [Unreleased]
 
 ### Added
+- **Orbit Deck (`app/`)** — the first real app surface: a local Electron desktop shell
+  (Windows portable zip, no installer, no server) with three panes. *Areas*: live tree
+  explorer (fs-watch auto-refresh, amber inbox badge, double-click opens). *Tree health*:
+  the existing `orbit-dashboard` page regenerated via `python` and embedded — Deck renders
+  orbit's outputs, it re-implements nothing. *Agent*: chat that spawns the Claude Code CLI
+  (`claude -p --output-format stream-json`, session resume, permission modes
+  plan/acceptEdits/bypass) with tool calls streamed as a working-process timeline.
+  Smoke-tested without an Electron binary (`app/tests/deck-smoke.js`: scanner counts on
+  the find fixture + renderer UI in headless Chromium). The Windows zip builds on GitHub
+  Actions (`build-orbit-deck` workflow) because the dev container cannot fetch Electron
+  binaries; grab the `OrbitDeck-win-portable` artifact.
+
+### Added
 - **`file-find` skill** — retrieval, the flip side of `file-triage`: parse the ask
   into the SPEC's filing signals, predict the file's one home by running the decision
   procedure forward, search narrow-to-wide (predicted home → name → content →

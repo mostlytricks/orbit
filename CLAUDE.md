@@ -1,6 +1,6 @@
 # orbit
 
-**O**rganized **R**epository for **B**usiness & **IT** **T**asks — an IT manager's personal work OS: one long-lived numbered directory architecture (4–10 years of files) plus agent skills that do the daily labor, starting with *"sort this messy directory into my structure."* Claude Code is the primary interface; the only app surface is **generated static HTML** (the tree-health dashboard) — no server app yet.
+**O**rganized **R**epository for **B**usiness & **IT** **T**asks — an IT manager's personal work OS: one long-lived numbered directory architecture (4–10 years of files) plus agent skills that do the daily labor, starting with *"sort this messy directory into my structure."* Claude Code is the primary interface; the app surfaces are **generated static HTML** (the tree-health dashboard) and **Orbit Deck** (`app/` — a local Electron shell: tree explorer + embedded dashboard + agent panel). Still no server anywhere.
 
 > **alias:** `orbit`
 
@@ -34,6 +34,7 @@ No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain 
 | How a *file* is found (file-level retrieval, miss diagnosis; cheap *directory* routing is `locate`'s — row below) | `skills/file-find/SKILL.md` — lookup derives from the SPEC's decision procedure; if find and triage disagree, fix the SPEC, not the skill |
 | A per-area browsing card (`NN-*/README.md`) | It's a *generated artifact* — edit `.gravity/filing/SPEC.md` (areas table), then `python skills/area-architect/generate_cards.py .`; never hand-edit a card |
 | Finding a curated deep directory ("where is X?"), or the manifest/index format | `.gravity/waypoint/SPEC.md` (the `locate` skill executes it; never `ls` a big dir to find things) |
+| The desktop app (panes, agent bridge, packaging) | `app/README.md`, then `app/main.js` (IPC + claude/python spawns) and `app/renderer/` — the Windows zip builds on CI (`.github/workflows/build-deck.yml`), never here |
 | What's next / slice queue | `.gravity/IMPLEMENTATION_PLAN.md` |
 
 New feature? Run the domain gate in `.gravity/IMPLEMENTATION_PLAN.md`'s queue rules first — most features are slices under `filing` (or future domains), not new domains.
@@ -57,6 +58,8 @@ No server. Claude Code opens here (or on the work machine's populated copy) and 
 
 ```bash
 python skills/orbit-dashboard/generate.py   # regenerate dashboard.html (gitignored output; open in browser)
+cd app && npm ci && npm start               # Orbit Deck desktop shell (needs Electron download - not in this container)
+cd app && npm test                          # Deck smoke: scanner + renderer UI in headless Chromium (works here)
 ```
 
 ## Test

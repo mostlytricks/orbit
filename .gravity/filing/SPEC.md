@@ -17,7 +17,9 @@ python tests/check_find.py <scratch>         # behavior: retrieval on the plante
 ## Core Definition
 
 A valid orbit instance is a directory tree whose top layer contains **exactly the areas
-in the table below** (plus `.git`/`.gravity`/`skills`/`tests` and the root docs), where
+in the table below** (plus the infrastructure dirs `.git`/`.github`/`.gravity`/`skills`/
+`tests`/`app` and the root docs — infrastructure is *skeleton*, never a filing
+destination), where
 every file sits in the one area the decision procedure assigns it — or in `00-inbox/`
 awaiting triage.
 

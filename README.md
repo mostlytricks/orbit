@@ -65,6 +65,14 @@ Restructuring the areas themselves is `area-architect`; documenting a business p
 `process-architect`. All seven skills live under `skills/<name>/SKILL.md` and are discovered by
 Claude Code and Codex alike.
 
+## Orbit Deck (the desktop app)
+
+When a terminal isn't enough, [`app/`](app/README.md) is a local Electron shell — no
+server, no installer: a live **area explorer**, the **tree-health dashboard** embedded and
+regenerated on demand, and an **agent panel** that runs the Claude Code CLI against your
+root with tool calls streamed as a working-process timeline. The Windows portable zip
+builds via the `build-orbit-deck` GitHub Actions workflow.
+
 ## Design here, deploy at work
 
 This public repo is the **design instance** — structure, skills, the contract, and *fake*
