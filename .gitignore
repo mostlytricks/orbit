@@ -56,6 +56,11 @@ dashboard.html
 # ignored at the root AND inside tests/fixture-waypoint/ (after the !tests/** re-include).
 waypoint-index.md
 
+# Orbit Deck (app/) — dependency and build output; source is tracked, artifacts are not.
+# The built zip is also caught by Wall 2 (*.zip); CI publishes it as a run artifact.
+app/node_modules/
+app/dist/
+
 # machine-local skill wiring: junctions into Claude Code's discovery root.
 # skills/ stays canonical; recreate the links with `python .claude/setup-skills.py`.
 .claude/skills/

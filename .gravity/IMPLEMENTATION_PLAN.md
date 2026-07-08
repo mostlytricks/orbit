@@ -23,7 +23,7 @@ Rolling lanes (growing project — skills accrete, phases would be fake). Rules:
 
 | Lane | Slice | Status |
 |---|---|---|
-| now | OPEN: user picks the next slice (candidates below) | ○ |
+| now | **Orbit Deck v1** — Electron desktop shell (`app/`): live tree explorer, embedded dashboard, agent chat panel via `claude -p` stream-json; Windows portable zip built on CI | ◑ built + smoke-tested; awaiting first green CI build & user's hands-on |
 | next | `daily-note` skill — templated daily worklog auto-placed in `10-daily/YYYY/MM/` (likely mints a `notes` domain) | ○ |
 | later | `weekly-report` skill — assemble the week's report from daily notes | ○ |
 | later | **waypoint**: per-directory dashboard view (select box in `orbit-dashboard`, or a sub-page) — the "feature 1" slice; `build_index.py` already computes the counts | ○ |
@@ -41,7 +41,7 @@ Shipped (details in git history): **file-find (retrieval loop)** — SKILL (pars
 - **Top-layer budget is mechanical** — the structure lint warns at 7 areas, fails at 9. Renumbering is *allowed* but only as a deliberate migration (change order + tombstone); a tombstoned number is never reused for a different subject.
 - **Design here, deploy at work** — no corporate data in this repo; skills use relative paths; structure travels by copy, skills via astra.
 - **Hybrid git** — skeleton tracked, payload binaries ignored (`tests/`, `skills/` whitelisted).
-- **No server app yet** — Claude Code is the primary interface; app surfaces are generated static self-contained HTML (the dashboard). A real server app is a maybe-later, not a wall.
+- **No server, ever-thicker local apps** — Claude Code is the primary interface; app surfaces are generated static self-contained HTML (the dashboard) plus **Orbit Deck** (`app/`, local Electron shell: tree explorer + embedded dashboard + agent panel spawning the claude CLI). Deck is a *viewer/driver over the same contracts* — it re-uses `orbit-dashboard` output and the CLI's skills, never re-implements filing logic. A server app remains a maybe-later, not a wall.
 - **`.gravity/` adopted early on purpose** — orbit's root is the product; docs may not pile up on the layer the budget protects.
 
 ## Open questions

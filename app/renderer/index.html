@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- style-src allows inline styles because the embedded dashboard.html (srcdoc
+       inherits this CSP) is generated with inline <style> by design (self-contained). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self' data: blob:">
+  <title>Orbit Deck</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <span class="wordmark"><b>&#10022;</b> orbit deck</span>
+    <span id="rootLabel" class="meta">no root selected</span>
+    <span class="spacer"></span>
+    <button id="btnRefresh" title="Rescan tree + regenerate dashboard">refresh</button>
+    <button id="btnPickRoot">pick root</button>
+    <button id="btnSettings">settings</button>
+  </header>
+
+  <main>
+    <aside id="treePane">
+      <div class="paneHead">
+        <h2>Areas</h2>
+        <span id="treeMeta" class="dim"></span>
+      </div>
+      <div id="tree" class="treeBody"><p class="dim pad">Pick your orbit root to begin.</p></div>
+    </aside>
+
+    <section id="dashPane">
+      <div class="paneHead">
+        <h2>Tree health</h2>
+        <span id="dashMeta" class="dim"></span>
+        <button id="btnDash" class="mini">regenerate</button>
+      </div>
+      <iframe id="dashFrame" title="orbit dashboard"></iframe>
+      <div id="dashEmpty" class="empty"><p class="dim">Dashboard renders here &mdash; press <b>regenerate</b>.</p></div>
+    </section>
+
+    <aside id="agentPane">
+      <div class="paneHead">
+        <h2>Agent</h2>
+        <span id="agentMeta" class="dim">idle</span>
+        <button id="btnNewChat" class="mini" title="Start a fresh session">new</button>
+      </div>
+      <div id="chat" class="chatBody">
+        <div class="bubble sys">Talk to Claude about this tree &mdash; <i>"sort the inbox"</i>, <i>"where is the DR runbook?"</i>, <i>"what's eating my disk?"</i>. Tool calls appear as a working-process timeline. Requires the Claude Code CLI installed and signed in on this machine.</div>
+      </div>
+      <form id="chatForm">
+        <textarea id="chatInput" rows="2" placeholder="Ask about the tree... (Enter to send, Shift+Enter for newline)"></textarea>
+        <div class="chatButtons">
+          <button type="submit" id="btnSend">send</button>
+          <button type="button" id="btnCancel" disabled>stop</button>
+        </div>
+      </form>
+    </aside>
+  </main>
+
+  <dialog id="settingsDlg">
+    <form method="dialog" id="settingsForm">
+      <h2>Settings</h2>
+      <label>Python command <input id="setPython" spellcheck="false"></label>
+      <label>Claude command <input id="setClaude" spellcheck="false"></label>
+      <label>Agent permissions
+        <select id="setPerm">
+          <option value="plan">plan only &mdash; agent proposes, never touches files</option>
+          <option value="acceptEdits">accept edits &mdash; file moves/writes auto-approved (default)</option>
+          <option value="bypass">bypass all &mdash; no permission gates (careful)</option>
+        </select>
+      </label>
+      <div class="chatButtons">
+        <button value="save" id="btnSaveSettings">save</button>
+        <button value="cancel" formnovalidate>cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
