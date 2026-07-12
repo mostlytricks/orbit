@@ -2,10 +2,16 @@
 
 All notable changes to **orbit** are recorded here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
-This is orbit's own product version; the gravity system version it adopted (`v1.4`)
+This is orbit's own product version; the gravity system version it adopted (`v1.8`)
 is separate and lives in `CLAUDE.md`.
 
 ## [Unreleased]
+
+## [0.5.0] - 2026-07-12
+
+The habit release: retrieval closed, the desktop shell born, the weekly rhythm built
+(daily-note -> weekly-report -> janitor) - design-complete for v1, now waiting on
+First Light (the first run against real files).
 
 ### Added
 - **`orbit-janitor` skill — the weekly nag.** A read-only sweep of five signals (inbox
