@@ -1,6 +1,6 @@
 # orbit
 
-**O**rganized **R**epository for **B**usiness & **IT** **T**asks — an IT manager's personal work OS: one long-lived numbered directory architecture (4–10 years of files) plus agent skills that do the daily labor, starting with *"sort this messy directory into my structure."* Claude Code is the primary interface; the app surfaces are **generated static HTML** (the tree-health dashboard) and **Orbit Deck** (`app/` — a local Electron shell: tree explorer + embedded dashboard + agent panel). Still no server anywhere.
+**O**rganized **R**epository for **B**usiness & **IT** **T**asks — an IT manager's work OS where **the directory is the database, agents are the labor, and mechanical walls keep everyone honest**: one long-lived numbered tree (4–10 years of files) plus agent skills that do the daily work, starting with *"sort this messy directory into my structure."* Claude Code is the primary interface; the app surfaces — **generated static HTML** (the tree-health dashboard) and **Orbit Deck** (`app/`, a local Electron shell: tree explorer + embedded dashboard + agent panel) — are *viewers over the contracts, never the product*. Still no server anywhere. Feature razor: *does it make the tree more true, or the labor more automatic? If neither, cut it.*
 
 > **alias:** `orbit`
 
