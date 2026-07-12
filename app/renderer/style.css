@@ -12,6 +12,13 @@ body { background:var(--bg); color:var(--ink); font:14px/1.55 var(--sans); displ
 
 header { display:flex; align-items:center; gap:14px; padding:10px 16px; border-bottom:1px solid var(--line); background:var(--panel); flex:none; }
 .wordmark { font:600 15px var(--mono); } .wordmark b { color:var(--accent2); }
+.wordmark .comet { display:inline-block; color:var(--warn); transform:rotate(-12deg);
+  text-shadow:0 0 6px rgba(251,191,36,.85), 0 0 14px rgba(248,113,113,.5);
+  animation:cometFlicker 2.4s ease-in-out infinite; }
+@keyframes cometFlicker {
+  0%,100% { text-shadow:0 0 6px rgba(251,191,36,.85), 0 0 14px rgba(248,113,113,.45); }
+  50%     { text-shadow:0 0 10px rgba(251,191,36,1), 0 0 24px rgba(248,113,113,.75); }
+}
 .meta { color:var(--faint); font:12px var(--mono); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:44vw; }
 .spacer { flex:1; }
 button { background:var(--card); color:var(--ink); border:1px solid var(--line2); border-radius:7px; padding:5px 13px; font:12.5px var(--mono); cursor:pointer; }
@@ -28,7 +35,16 @@ main { flex:1; display:grid; grid-template-columns: 300px 1fr 400px; min-height:
 
 /* tree */
 #treePane { border-right:1px solid var(--line); display:flex; flex-direction:column; min-height:0; background:var(--panel); }
-.treeBody { overflow:auto; flex:1; padding:8px 6px; font:12.5px var(--mono); }
+.treeBody { overflow:auto; flex:1; padding:8px 6px; font:12.5px var(--mono);
+  /* faint starfield - pure CSS, no assets */
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(232,235,244,.28) 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 9%,  rgba(138,180,255,.25) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 55% 42%, rgba(232,235,244,.18) 50%, transparent 51%),
+    radial-gradient(1px 1px at 30% 71%, rgba(180,138,255,.22) 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 63%, rgba(232,235,244,.22) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 64% 88%, rgba(138,180,255,.16) 50%, transparent 51%);
+  background-attachment:local; }
 .node { user-select:none; }
 .row { display:flex; align-items:center; gap:6px; padding:2px 6px; border-radius:5px; cursor:pointer; white-space:nowrap; }
 .row:hover { background:var(--card); }
@@ -41,6 +57,42 @@ main { flex:1; display:grid; grid-template-columns: 300px 1fr 400px; min-height:
 .badge.hot { color:var(--warn); border-color:var(--warn); }
 .kids { margin-left:14px; border-left:1px solid var(--line); padding-left:4px; }
 .hidden { display:none; }
+
+/* celestial micro-interactions ------------------------------------------- */
+/* removal observed -> the row burns up like a meteor, then the tree closes
+   over the gap on rebuild. Deck never deletes; it only narrates what happened. */
+.node.burnout { position:relative; animation:burnRow .78s ease-in forwards; pointer-events:none; }
+@keyframes burnRow {
+  0%   { opacity:1; transform:none; }
+  22%  { filter:brightness(1.7) sepia(.9) hue-rotate(-28deg) saturate(3.2); }
+  100% { opacity:0; transform:translate(46px,52px) rotate(9deg) scale(.72);
+         filter:brightness(2.1) sepia(1) hue-rotate(-32deg) saturate(4); }
+}
+.node.burnout::after { content:"\2604"; position:absolute; left:-6px; top:-8px; font-size:14px;
+  color:var(--warn); text-shadow:0 0 9px rgba(251,191,36,.95), 0 0 18px rgba(248,113,113,.6);
+  animation:meteorStreak .78s ease-in forwards; }
+@keyframes meteorStreak {
+  0%   { transform:translate(-46px,-52px) rotate(35deg) scale(.5); opacity:0; }
+  25%  { opacity:1; }
+  100% { transform:translate(58px,64px) rotate(35deg) scale(1.15); opacity:0; }
+}
+/* arrival observed -> touchdown glow */
+.node.landing > .row { animation:touchdown .55s ease-out; }
+@keyframes touchdown {
+  0%  { transform:translateY(-16px); opacity:0; filter:brightness(2.4); }
+  55% { filter:brightness(1.5); }
+  100%{ transform:none; opacity:1; filter:none; }
+}
+/* inbox gained mass -> badge shockwave */
+.badge.ping { animation:badgePing .7s ease-out; }
+@keyframes badgePing {
+  0%   { box-shadow:0 0 0 0 rgba(251,191,36,.75); }
+  100% { box-shadow:0 0 0 11px rgba(251,191,36,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wordmark .comet, .node.burnout, .node.burnout::after,
+  .node.landing > .row, .badge.ping { animation:none !important; }
+}
 
 /* dashboard */
 #dashPane { display:flex; flex-direction:column; min-width:0; min-height:0; position:relative; }
