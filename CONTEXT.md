@@ -9,6 +9,7 @@
 Last touched: 2026-07-12
 
 ## Completed
+- **Daily loop (notes domain, PR #6)** — `.gravity/notes/SPEC.md` (four load-bearing sections, single-`(carried)` forward, never-overwrite, weekly assembly rules) + `daily-note` (`new_note.py`) + `weekly-report` (`generate.py`: done-by-day, dated decisions, carried, mtime-window per-area activity, sources cited) + the **sixth wall** `tests/check_notes.py` on `fixture-notes/` (self-driving, pinned week 2026-W24); PASS + FAIL-on-planted-violations verified. Nine skills, six walls, three domains.
 - **Status review + identity razor (2026-07-12)** — verdict: *design-complete for v1, unproven on real files* (fixtures only; Deck never launched; 0 remote tags; fat `[Unreleased]`). Identity sharpened in CLAUDE.md: directory = database, agents = labor, walls = honesty; apps are viewers, contracts the product. Queue rebuilt around **First Light** → daily loop → janitor/cockpit; content-index, pre-usage theming, Tauri cut (razor). 
 - **Deck celestial theme (PR #4, merged)** — burning-comet wordmark, CSS starfield, meteor burnout on observed removals + touchdown glow + inbox badge shockwave (scan-diff driven; Deck still never deletes; reduced-motion respected; smoke-tested).
 - **Orbit Deck v1 (PR #3, merged)** — Electron shell: live area explorer (fs-watch), embedded `orbit-dashboard`, agent chat via `claude -p` stream-json (session resume, permission modes, tool-call timeline). Electron-free smoke test; Windows portable zip builds on CI (`build-orbit-deck`).
@@ -22,4 +23,4 @@ Last touched: 2026-07-12
 - Design instance only; `origin` → github.com/mostlytricks/orbit is PUBLIC — never commit corporate content (area wall enforces it). PRs #1–#4 merged; **0 tags on the remote** (local-only), `VERSION` 0.4.0 with three features in `[Unreleased]` — v0.5.0 pending First Light.
 
 ## Next Step
-- **First Light** (the now-slice): run `build-orbit-deck` (Actions → Run workflow) and launch Deck; run scout+triage on the real Desktop/Downloads; cut **v0.5.0** and push tags. Report what breaks — that feedback drives the daily-loop slice next.
+- **First Light** (still the now-slice): run `build-orbit-deck` (Actions → Run workflow) and launch Deck; run scout+triage on the real Desktop/Downloads — and now also start the daily habit for real (`python skills/daily-note/new_note.py`, then Friday `python skills/weekly-report/generate.py`); cut **v0.5.0** and push tags. Report what breaks — that feedback drives `orbit-janitor` next.
