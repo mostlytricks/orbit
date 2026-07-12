@@ -51,7 +51,7 @@ New feature? Run the domain gate in `.gravity/IMPLEMENTATION_PLAN.md`'s queue ru
 ## Stack
 
 - **No runtime app.** Markdown + directory conventions + agent `SKILL.md`s.
-- **Python 3.x (stdlib only)** for the mechanical gates (`tests/check_structure.py`, `tests/check_triage.py`, `tests/check_scout.py`, `tests/check_waypoint.py`, `tests/check_find.py`, `tests/check_notes.py`) — no venv needed; they run on the work instance too.
+- **Python 3.x (stdlib only)** for the mechanical gates (`tests/check_structure.py`, `tests/check_triage.py`, `tests/check_scout.py`, `tests/check_waypoint.py`, `tests/check_find.py`, `tests/check_notes.py`, `tests/check_janitor.py`) — no venv needed; they run on the work instance too.
 - Skills are astra-shaped (folder with `SKILL.md`) so they can be published to the astra registry later.
 
 ## Run
@@ -82,9 +82,12 @@ python tests/check_find.py <scratch2>
 # notes gate: self-driving - runs new_note.py + weekly generate.py with pinned dates, then verifies
 cp -r tests/fixture-notes/tree/. <scratch3>/
 python tests/check_notes.py <scratch3>
+# janitor gate: self-driving - stages lint infra, pins mtimes, runs sweep.py, verifies verdicts
+cp -r tests/fixture-janitor/tree/. <scratch4>/
+python tests/check_janitor.py <scratch4>
 ```
 
-All six are walls, not eyeballing. The filing *rules themselves* stay `[review]` (only you can say where your files belong).
+All seven are walls, not eyeballing. The filing *rules themselves* stay `[review]` (only you can say where your files belong).
 
 ## Conventions
 
@@ -104,9 +107,9 @@ All six are walls, not eyeballing. The filing *rules themselves* stay `[review]`
 ## Entry Points
 
 - `.gravity/filing/SPEC.md` — **the architectural seam**: the one contract that both the human filing habit and every sorting/restructuring skill derive from. Change filing behavior here, never inside a skill.
-- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `file-find` retrieves, `area-architect` restructures, `orbit-dashboard` monitors, `locate` finds curated dirs cheaply, `process-architect` documents how a process works, `daily-note` opens the day with carry-forward, `weekly-report` assembles the week). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
+- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `file-find` retrieves, `area-architect` restructures, `orbit-dashboard` monitors, `locate` finds curated dirs cheaply, `process-architect` documents how a process works, `daily-note` opens the day with carry-forward, `weekly-report` assembles the week, `orbit-janitor` sweeps and nags). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
 - `00-inbox/ … 50-policy/` — the six areas (meanings in the SPEC).
-- `tests/` — fixture inbox + fixture source roots + fixture waypoint tree + fixture find-tree + fixture notes week + the six mechanical checkers (structure, triage, scout, waypoint, find, notes — the gate).
+- `tests/` — fixture inbox + fixture source roots + fixture waypoint tree + fixture find-tree + fixture notes week + fixture janitor tree + the seven mechanical checkers (structure, triage, scout, waypoint, find, notes, janitor — the gate).
 
 ## Git
 

@@ -1,0 +1,1 @@
+ERP quote (fake fixture) - touched after the manifest, so the waypoint is stale.

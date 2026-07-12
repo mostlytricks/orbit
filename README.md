@@ -58,14 +58,15 @@ Open Claude Code at the orbit root and ask. The daily loop:
    automatically); on Friday `weekly-report` assembles the week from those notes plus what
    actually changed in the tree — you only write the highlights.
 5. **Monitor** — `orbit-dashboard` renders a tree-health page (cleanup candidates, duplicates,
-   size and age):
+   size and age), and `orbit-janitor` runs the weekly nag — a read-only sweep filed as a
+   chore record next to your daily notes, each finding routed to the skill that fixes it:
 
    ```bash
    python skills/orbit-dashboard/generate.py   # -> dashboard.html (open in a browser)
    ```
 
 Restructuring the areas themselves is `area-architect`; documenting a business process is
-`process-architect`. All nine skills live under `skills/<name>/SKILL.md` and are discovered by
+`process-architect`. All ten skills live under `skills/<name>/SKILL.md` and are discovered by
 Claude Code and Codex alike.
 
 ## Orbit Deck (the desktop app)
@@ -98,6 +99,6 @@ paths only, so the structure travels by copy.
 
 ## Status
 
-**v0.4.x** — three domains (`filing`, `waypoint`, `notes`) and nine skills, with every mechanical gate a
+**v0.4.x** — three domains (`filing`, `waypoint`, `notes`) and ten skills, with every mechanical gate a
 real wall (`tests/check_*.py`, all stdlib-only so they run on the work instance too). Built on
 the *gravity* workspace doc-system (v1.4). Full history in [`CHANGELOG.md`](CHANGELOG.md).
