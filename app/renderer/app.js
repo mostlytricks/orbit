@@ -15,6 +15,7 @@ let busy = false;
 function nodeRow(node, relPath, isArea) {
   const wrap = document.createElement("div");
   wrap.className = "node";
+  wrap.dataset.path = relPath;
   const row = document.createElement("div");
   row.className = `row ${isArea ? "area" : node.dir ? "" : "file"}`;
   const twist = document.createElement("span");
@@ -62,18 +63,77 @@ function nodeRow(node, relPath, isArea) {
   return wrap;
 }
 
+const REDUCED_MOTION = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let prevPaths = null; // Set of every path from the last scan - drives the meteor diff
+let prevInbox = null;
+
+function collectPaths(areas) {
+  const s = new Set();
+  const walk = (nodes, base) => {
+    for (const n of nodes) {
+      const p = `${base}/${n.name}`;
+      s.add(p);
+      if (n.dir) walk(n.children, p);
+    }
+  };
+  for (const a of areas) { s.add(a.name); walk(a.children, a.name); }
+  return s;
+}
+
 async function refreshTree() {
   const res = await window.deck.scanTree();
   const tree = $("tree");
-  tree.textContent = "";
   if (res.error) {
+    tree.textContent = "";
     tree.innerHTML = `<p class="dim pad"></p>`;
     tree.firstChild.textContent = res.error;
     return;
   }
+  const newPaths = collectPaths(res.areas);
+
+  // something left the tree -> let its row burn up before the rebuild closes the gap
+  if (prevPaths && !REDUCED_MOTION) {
+    const gone = [...prevPaths].filter((p) => !newPaths.has(p));
+    const goneSet = new Set(gone);
+    const roots = gone.filter((p) => !goneSet.has(p.slice(0, p.lastIndexOf("/")))); // burn the topmost node only
+    const rows = roots
+      .map((p) => tree.querySelector(`.node[data-path="${CSS.escape(p)}"]`))
+      .filter(Boolean);
+    if (rows.length) {
+      rows.forEach((r) => r.classList.add("burnout"));
+      await new Promise((r) => setTimeout(r, 800));
+    }
+  }
+
+  tree.textContent = "";
   for (const area of res.areas) tree.append(nodeRow(area, area.name, true));
   const total = res.areas.reduce((n, a) => n + a.fileCount, 0);
   $("treeMeta").textContent = `${res.areas.length} areas · ${total} files${res.truncated ? " (view truncated)" : ""}`;
+
+  if (prevPaths && !REDUCED_MOTION) {
+    // something arrived -> touchdown glow on its new row
+    for (const p of newPaths) {
+      if (!prevPaths.has(p)) {
+        const el = tree.querySelector(`.node[data-path="${CSS.escape(p)}"]`);
+        if (el) {
+          el.classList.add("landing");
+          setTimeout(() => el.classList.remove("landing"), 650);
+        }
+      }
+    }
+    // inbox gained mass -> badge shockwave
+    const inbox = res.areas.find((a) => a.name.startsWith("00-"));
+    if (inbox && prevInbox !== null && inbox.fileCount > prevInbox) {
+      const badge = tree.querySelector(`.node[data-path="${CSS.escape(inbox.name)}"] .badge`);
+      if (badge) {
+        badge.classList.add("ping");
+        setTimeout(() => badge.classList.remove("ping"), 800);
+      }
+    }
+  }
+  const inboxArea = res.areas.find((a) => a.name.startsWith("00-"));
+  prevInbox = inboxArea ? inboxArea.fileCount : null;
+  prevPaths = newPaths;
 }
 
 // ---------- dashboard ----------

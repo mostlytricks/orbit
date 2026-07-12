@@ -1,7 +1,7 @@
 {
   "name": "orbit-deck",
   "productName": "Orbit Deck",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Desktop shell for orbit - tree explorer, live tree-health dashboard, and an embedded Claude agent panel. No server: everything runs local against your orbit root.",
   "main": "main.js",
   "author": "mostlytricks",

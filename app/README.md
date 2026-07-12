@@ -14,6 +14,17 @@ The desktop shell for orbit — see the tree without a terminal. Three panes:
 No server, no telemetry, nothing leaves the machine except what the Claude CLI itself
 does. Config lives in one JSON under your user profile.
 
+## The orbit theme (celestial micro-interactions)
+
+The wordmark is a burning comet, the tree floats over a faint pure-CSS starfield, and
+the explorer *narrates* change: a file or directory that **leaves** the tree burns up
+like a meteor (streak + ember fade) before the tree closes over the gap; something that
+**arrives** lands with a touchdown glow; the inbox badge fires a shockwave when new
+files drop in. Important boundary: **Deck never deletes anything** — the meteor is not
+a delete button, it is the animation for removals Deck *observes* (you deleted in
+Explorer, or triage moved a file to its home). All effects respect
+`prefers-reduced-motion`.
+
 ## Requirements on the target machine
 
 - Windows 10/11 (portable zip — unzip anywhere, run `OrbitDeck.exe`; no installer/admin).

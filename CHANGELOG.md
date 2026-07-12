@@ -8,6 +8,13 @@ is separate and lives in `CLAUDE.md`.
 ## [Unreleased]
 
 ### Added
+- **Orbit Deck: celestial theme & meteor micro-interactions** — the wordmark is a burning
+  comet, the tree pane floats over a faint pure-CSS starfield, and the explorer narrates
+  change: a removed file/directory burns up like a meteor (streak + ember fade) before the
+  tree closes over the gap, arrivals land with a touchdown glow, and the inbox badge fires
+  a shockwave when new files drop. Deck still never deletes - the meteor animates removals
+  it *observes*. All effects respect `prefers-reduced-motion`; verified in the Electron-free
+  smoke test (burnout / touchdown / ping assertions).
 - **Orbit Deck (`app/`)** — the first real app surface: a local Electron desktop shell
   (Windows portable zip, no installer, no server) with three panes. *Areas*: live tree
   explorer (fs-watch auto-refresh, amber inbox badge, double-click opens). *Tree health*:
@@ -19,8 +26,6 @@ is separate and lives in `CLAUDE.md`.
   the find fixture + renderer UI in headless Chromium). The Windows zip builds on GitHub
   Actions (`build-orbit-deck` workflow) because the dev container cannot fetch Electron
   binaries; grab the `OrbitDeck-win-portable` artifact.
-
-### Added
 - **`file-find` skill** — retrieval, the flip side of `file-triage`: parse the ask
   into the SPEC's filing signals, predict the file's one home by running the decision
   procedure forward, search narrow-to-wide (predicted home → name → content →

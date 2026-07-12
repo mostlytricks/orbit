@@ -36,16 +36,18 @@ console.log(`scan: ${tree.areas ? tree.areas.length : 0} areas, ` +
   const treeData = JSON.stringify(tree);
   await page.addInitScript(`
     window.__agentCb = null;
+    window.__treeCb = null;
+    window.__tree = ${treeData};
     window.deck = {
       getConfig: async () => ({ root: "/fake/orbit", pythonCmd: "python3", claudeCmd: "claude", permissionMode: "acceptEdits" }),
       setConfig: async (p) => p,
       pickRoot: async () => null,
-      scanTree: async () => (${treeData}),
+      scanTree: async () => window.__tree,
       regenDashboard: async () => ({ html: "<html><body><h1 id='dash-ok'>DASH</h1></body></html>" }),
       agentSend: async () => ({ ok: true }),
       agentCancel: async () => ({ ok: true }),
       openPath: async () => "",
-      onTreeChanged: () => {},
+      onTreeChanged: (cb) => { window.__treeCb = cb; },
       onAgentEvent: (cb) => { window.__agentCb = cb; },
     };
   `);
@@ -80,6 +82,30 @@ console.log(`scan: ${tree.areas ? tree.areas.length : 0} areas, ` +
   check((await page.locator(".turnFoot").count()) === 1, "UI: turn footer with duration/cost");
   check(await page.locator("#btnSend").isEnabled(), "UI: send re-enables after deck:done");
 
+  // meteor micro-interactions: rows carry paths; a removal burns up, an arrival lands
+  check((await page.locator('.node[data-path="30-operations/dr-recovery-runbook.md"]').count()) === 1,
+    "UI: rows carry data-path for the diff");
+  await page.evaluate(() => {
+    const ops = window.__tree.areas.find((a) => a.name === "30-operations");
+    ops.children = ops.children.filter((n) => n.name !== "dr-recovery-runbook.md");
+    ops.fileCount -= 1;
+    window.__treeCb(); // watcher fires
+  });
+  await page.waitForTimeout(250);
+  check((await page.locator(".node.burnout").count()) === 1, "UI: removed row burns up like a meteor");
+  await page.waitForTimeout(900);
+  check((await page.locator('.node[data-path="30-operations/dr-recovery-runbook.md"]').count()) === 0,
+    "UI: burned row is gone after the rebuild");
+  await page.evaluate(() => {
+    const inbox = window.__tree.areas.find((a) => a.name === "00-inbox");
+    inbox.children.push({ name: "2026-07-08-new-drop.txt", dir: false, size: 10, mtime: Date.now() });
+    inbox.fileCount += 1;
+    window.__treeCb();
+  });
+  await page.waitForTimeout(300);
+  check((await page.locator(".node.landing").count()) >= 1, "UI: arriving file gets the touchdown glow");
+  check((await page.locator(".badge.ping").count()) === 1, "UI: inbox badge shockwave on new arrival");
+
   await browser.close();
 
   if (failures.length) {
@@ -87,5 +113,6 @@ console.log(`scan: ${tree.areas ? tree.areas.length : 0} areas, ` +
     for (const f of failures) console.log("  " + f);
     process.exit(1);
   }
-  console.log("PASS: scanner counts + renderer UI (tree, dashboard embed, chat stream) all verified");
+  console.log("PASS: scanner counts + renderer UI (tree, dashboard embed, chat stream, "
+    + "meteor burnout / touchdown / badge ping) all verified");
 })().catch((err) => { console.log("FAIL: " + err.message); process.exit(1); });
