@@ -66,7 +66,7 @@ Open Claude Code at the orbit root and ask. The daily loop:
    ```
 
 Restructuring the areas themselves is `area-architect`; documenting a business process is
-`process-architect`. All ten skills live under `skills/<name>/SKILL.md` and are discovered by
+`process-architect`. All eleven skills live under `skills/<name>/SKILL.md` and are discovered by
 Claude Code and Codex alike.
 
 ## Orbit Deck (the desktop app)
@@ -99,6 +99,6 @@ paths only, so the structure travels by copy.
 
 ## Status
 
-**v0.4.x** — three domains (`filing`, `waypoint`, `notes`) and ten skills, with every mechanical gate a
+**v0.4.x** — three domains (`filing`, `waypoint`, `notes`) and eleven skills, with every mechanical gate a
 real wall (`tests/check_*.py`, all stdlib-only so they run on the work instance too). Built on
 the *gravity* workspace doc-system (v1.4). Full history in [`CHANGELOG.md`](CHANGELOG.md).

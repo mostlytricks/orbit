@@ -7,6 +7,17 @@ is separate and lives in `CLAUDE.md`.
 
 ## [Unreleased]
 
+### Added
+- **`memory-map` skill — the waypoint domain's face.** One self-contained page that
+  colors the tree by *memory*, not just mass: curated-and-fresh tiles lit with their
+  manifest's purpose, stale tiles flickering amber (content newer than the manifest),
+  partial tiles for directories with deeper waypoints, and big uncurated directories as
+  **dark territory** whose click-card carries a ready-to-paste `_waypoint.md` skeleton
+  (small dirs stay neutral — the SPEC's anti-sprawl gate). Memory-coverage KPI = curated
+  mass / mass that deserves memory. Read-only lens: sizes, counts, mtimes and manifests
+  only; `memory-map.html` is gitignored generated output. Verified on a planted
+  five-state tree including live click-cards in headless Chromium.
+
 ## [0.5.0] - 2026-07-12
 
 The habit release: retrieval closed, the desktop shell born, the weekly rhythm built
