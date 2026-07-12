@@ -35,6 +35,7 @@ No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain 
 | How a *file* is found (file-level retrieval, miss diagnosis; cheap *directory* routing is `locate`'s — row below) | `skills/file-find/SKILL.md` — lookup derives from the SPEC's decision procedure; if find and triage disagree, fix the SPEC, not the skill |
 | A per-area browsing card (`NN-*/README.md`) | It's a *generated artifact* — edit `.gravity/filing/SPEC.md` (areas table), then `python skills/area-architect/generate_cards.py .`; never hand-edit a card |
 | Finding a curated deep directory ("where is X?"), or the manifest/index format | `.gravity/waypoint/SPEC.md` (the `locate` skill executes it; never `ls` a big dir to find things) |
+| The memory map (tile states, coverage math, detail cards) | `skills/memory-map/generate.py` — a *lens* over the waypoint SPEC; curation rules stay in `.gravity/waypoint/SPEC.md` |
 | A daily worklog or weekly report (template, carry-forward, assembly rules) | `.gravity/notes/SPEC.md` — `daily-note`/`weekly-report` execute it; *where* notes live stays the filing SPEC's call |
 | The desktop app (panes, agent bridge, packaging) | `app/README.md`, then `app/main.js` (IPC + claude/python spawns) and `app/renderer/` — the Windows zip builds on CI (`.github/workflows/build-deck.yml`), never here |
 | What's next / slice queue | `.gravity/IMPLEMENTATION_PLAN.md` |
@@ -60,6 +61,7 @@ No server. Claude Code opens here (or on the work machine's populated copy) and 
 
 ```bash
 python skills/orbit-dashboard/generate.py   # regenerate dashboard.html (gitignored output; open in browser)
+python skills/memory-map/generate.py --open  # regenerate memory-map.html - the waypoint domain's face
 cd app && npm ci && npm start               # Orbit Deck desktop shell (needs Electron download - not in this container)
 cd app && npm test                          # Deck smoke: scanner + renderer UI in headless Chromium (works here)
 ```
@@ -107,7 +109,7 @@ All seven are walls, not eyeballing. The filing *rules themselves* stay `[review
 ## Entry Points
 
 - `.gravity/filing/SPEC.md` — **the architectural seam**: the one contract that both the human filing habit and every sorting/restructuring skill derive from. Change filing behavior here, never inside a skill.
-- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `file-find` retrieves, `area-architect` restructures, `orbit-dashboard` monitors, `locate` finds curated dirs cheaply, `process-architect` documents how a process works, `daily-note` opens the day with carry-forward, `weekly-report` assembles the week, `orbit-janitor` sweeps and nags). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
+- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `file-find` retrieves, `area-architect` restructures, `orbit-dashboard` monitors, `locate` finds curated dirs cheaply, `process-architect` documents how a process works, `daily-note` opens the day with carry-forward, `weekly-report` assembles the week, `orbit-janitor` sweeps and nags, `memory-map` shows what you still remember). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
 - `00-inbox/ … 50-policy/` — the six areas (meanings in the SPEC).
 - `tests/` — fixture inbox + fixture source roots + fixture waypoint tree + fixture find-tree + fixture notes week + fixture janitor tree + the seven mechanical checkers (structure, triage, scout, waypoint, find, notes, janitor — the gate).
 

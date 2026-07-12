@@ -9,7 +9,7 @@ For in-flight state, read `CONTEXT.md`.
 
 ## Skills
 
-orbit ships ten agent skills. Each is a folder under `skills/<name>/` with a
+orbit ships eleven agent skills. Each is a folder under `skills/<name>/` with a
 `SKILL.md` (the canonical, astra-shaped source). When a task matches one, **read
 that skill's `SKILL.md` and follow its procedure** — the skills carry no filing
 rules of their own; those live in `.gravity/filing/SPEC.md`.
@@ -26,6 +26,7 @@ rules of their own; those live in `.gravity/filing/SPEC.md`.
 | `daily-note` | Open today's worklog — create it at its filing-SPEC home with the notes-SPEC template, carrying forward yesterday's unfinished In-progress items (`(carried)`, once). Never overwrites. Walled by `tests/check_notes.py`. | `skills/daily-note/SKILL.md` |
 | `weekly-report` | Assemble the week's report from the daily worklogs + a tree-activity scan (done-by-day, dated decisions, carried items, per-area files touched). Highlights are written *from* the facts, never invented. Walled by `tests/check_notes.py`. | `skills/weekly-report/SKILL.md` |
 | `orbit-janitor` | Weekly nag — read-only sweep (inbox age, dupe waste, structure lint, stale waypoints, cleanup candidates) filed as a day-dated chore report in `10-daily/`; every finding routes to the skill that fixes it. Walled by `tests/check_janitor.py`. | `skills/orbit-janitor/SKILL.md` |
+| `memory-map` | Render the tree colored by *memory*: curated-fresh tiles lit with their manifest's purpose, stale ones amber, big uncurated dirs as dark territory (click-card carries a `_waypoint.md` skeleton). Read-only lens over the waypoint SPEC; `memory-map.html` is gitignored generated output. | `skills/memory-map/SKILL.md` |
 
 (Claude Code discovers the same skills under `.claude/skills/` via machine-local
 junctions — recreate with `python .claude/setup-skills.py`. `skills/` is the one
