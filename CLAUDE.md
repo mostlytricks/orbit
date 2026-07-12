@@ -1,6 +1,6 @@
 # orbit
 
-**O**rganized **R**epository for **B**usiness & **IT** **T**asks — an IT manager's personal work OS: one long-lived numbered directory architecture (4–10 years of files) plus agent skills that do the daily labor, starting with *"sort this messy directory into my structure."* Claude Code is the primary interface; the app surfaces are **generated static HTML** (the tree-health dashboard) and **Orbit Deck** (`app/` — a local Electron shell: tree explorer + embedded dashboard + agent panel). Still no server anywhere.
+**O**rganized **R**epository for **B**usiness & **IT** **T**asks — an IT manager's work OS where **the directory is the database, agents are the labor, and mechanical walls keep everyone honest**: one long-lived numbered tree (4–10 years of files) plus agent skills that do the daily work, starting with *"sort this messy directory into my structure."* Claude Code is the primary interface; the app surfaces — **generated static HTML** (the tree-health dashboard) and **Orbit Deck** (`app/`, a local Electron shell: tree explorer + embedded dashboard + agent panel) — are *viewers over the contracts, never the product*. Still no server anywhere. Feature razor: *does it make the tree more true, or the labor more automatic? If neither, cut it.*
 
 > **alias:** `orbit`
 
@@ -17,6 +17,7 @@
   IMPLEMENTATION_PLAN.md    # what/next — slice queue, locked decisions, domain status spine
   filing/  SPEC.md          # THE FILING CONTRACT — areas, decision procedure, lifecycle & budget
   waypoint/  SPEC.md        # curated-directory manifests + the cheap index — find deep dirs without scanning payload
+  notes/  SPEC.md           # daily worklog & weekly report — note shape, carry-forward, weekly assembly
 ```
 
 No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain `ARCHITECTURE.html` (nothing outgrows a file map). Recognized only when present.
@@ -34,6 +35,7 @@ No `MISSION.html` yet (the why lives compactly in **Why** below); no per-domain 
 | How a *file* is found (file-level retrieval, miss diagnosis; cheap *directory* routing is `locate`'s — row below) | `skills/file-find/SKILL.md` — lookup derives from the SPEC's decision procedure; if find and triage disagree, fix the SPEC, not the skill |
 | A per-area browsing card (`NN-*/README.md`) | It's a *generated artifact* — edit `.gravity/filing/SPEC.md` (areas table), then `python skills/area-architect/generate_cards.py .`; never hand-edit a card |
 | Finding a curated deep directory ("where is X?"), or the manifest/index format | `.gravity/waypoint/SPEC.md` (the `locate` skill executes it; never `ls` a big dir to find things) |
+| A daily worklog or weekly report (template, carry-forward, assembly rules) | `.gravity/notes/SPEC.md` — `daily-note`/`weekly-report` execute it; *where* notes live stays the filing SPEC's call |
 | The desktop app (panes, agent bridge, packaging) | `app/README.md`, then `app/main.js` (IPC + claude/python spawns) and `app/renderer/` — the Windows zip builds on CI (`.github/workflows/build-deck.yml`), never here |
 | What's next / slice queue | `.gravity/IMPLEMENTATION_PLAN.md` |
 
@@ -49,7 +51,7 @@ New feature? Run the domain gate in `.gravity/IMPLEMENTATION_PLAN.md`'s queue ru
 ## Stack
 
 - **No runtime app.** Markdown + directory conventions + agent `SKILL.md`s.
-- **Python 3.x (stdlib only)** for the mechanical gates (`tests/check_structure.py`, `tests/check_triage.py`, `tests/check_scout.py`, `tests/check_waypoint.py`, `tests/check_find.py`) — no venv needed; they run on the work instance too.
+- **Python 3.x (stdlib only)** for the mechanical gates (`tests/check_structure.py`, `tests/check_triage.py`, `tests/check_scout.py`, `tests/check_waypoint.py`, `tests/check_find.py`, `tests/check_notes.py`) — no venv needed; they run on the work instance too.
 - Skills are astra-shaped (folder with `SKILL.md`) so they can be published to the astra registry later.
 
 ## Run
@@ -77,9 +79,12 @@ python tests/check_waypoint.py tests/fixture-waypoint
 # find gate: copy the planted tree, answer the queries per file-find, verify mechanically
 cp -r tests/fixture-find/tree/. <scratch2>/    # then write <scratch2>/find-report.json
 python tests/check_find.py <scratch2>
+# notes gate: self-driving - runs new_note.py + weekly generate.py with pinned dates, then verifies
+cp -r tests/fixture-notes/tree/. <scratch3>/
+python tests/check_notes.py <scratch3>
 ```
 
-All five are walls, not eyeballing. The filing *rules themselves* stay `[review]` (only you can say where your files belong).
+All six are walls, not eyeballing. The filing *rules themselves* stay `[review]` (only you can say where your files belong).
 
 ## Conventions
 
@@ -99,9 +104,9 @@ All five are walls, not eyeballing. The filing *rules themselves* stay `[review]
 ## Entry Points
 
 - `.gravity/filing/SPEC.md` — **the architectural seam**: the one contract that both the human filing habit and every sorting/restructuring skill derive from. Change filing behavior here, never inside a skill.
-- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `file-find` retrieves, `area-architect` restructures, `orbit-dashboard` monitors, `locate` finds curated dirs cheaply, `process-architect` documents how a process works). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
+- `skills/<name>/SKILL.md` — the daily-work skills (`file-scout` ingests from the wild, `file-triage` sorts, `file-find` retrieves, `area-architect` restructures, `orbit-dashboard` monitors, `locate` finds curated dirs cheaply, `process-architect` documents how a process works, `daily-note` opens the day with carry-forward, `weekly-report` assembles the week). This is the one canonical, astra-shaped source. Claude Code discovers them via machine-local junctions in `.claude/skills/` (gitignored; recreate with `python .claude/setup-skills.py`); Codex finds them through `AGENTS.md`. Never fork a second copy — always edit the file under `skills/`.
 - `00-inbox/ … 50-policy/` — the six areas (meanings in the SPEC).
-- `tests/` — fixture inbox + fixture source roots + fixture waypoint tree + fixture find-tree + the five mechanical checkers (structure, triage, scout, waypoint, find — the gate).
+- `tests/` — fixture inbox + fixture source roots + fixture waypoint tree + fixture find-tree + fixture notes week + the six mechanical checkers (structure, triage, scout, waypoint, find, notes — the gate).
 
 ## Git
 

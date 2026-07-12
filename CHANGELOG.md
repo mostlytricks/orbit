@@ -8,6 +8,18 @@ is separate and lives in `CLAUDE.md`.
 ## [Unreleased]
 
 ### Added
+- **Daily loop (`notes` domain)** — the habit-forming half of "work OS".
+  `.gravity/notes/SPEC.md` contracts the note shape (four load-bearing sections),
+  the carry-forward rule (unfinished In-progress bullets follow you to today's note,
+  `(carried)` once, never overwrite an existing note) and the weekly assembly.
+  `daily-note` opens the day (`skills/daily-note/new_note.py`); `weekly-report`
+  assembles the week (`skills/weekly-report/generate.py`): Done grouped by day,
+  Decisions date-tagged, the last note's In-progress as "Carried into next week",
+  and a per-area tree-activity table (mtime window, payload never read) — Highlights
+  are then written *from* those facts, never invented. Walled by the sixth gate:
+  `tests/check_notes.py` on a planted fixture week (self-driving, deterministic
+  dates/utimes); PASS + FAIL-on-planted-violations verified. Placement authority
+  stays with the filing SPEC.
 - **Orbit Deck: celestial theme & meteor micro-interactions** — the wordmark is a burning
   comet, the tree pane floats over a faint pure-CSS starfield, and the explorer narrates
   change: a removed file/directory burns up like a meteor (streak + ember fade) before the
