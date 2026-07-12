@@ -2,12 +2,26 @@
 
 All notable changes to **orbit** are recorded here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versioning is [SemVer](https://semver.org/).
-This is orbit's own product version; the gravity system version it adopted (`v1.4`)
+This is orbit's own product version; the gravity system version it adopted (`v1.8`)
 is separate and lives in `CLAUDE.md`.
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-07-12
+
+The habit release: retrieval closed, the desktop shell born, the weekly rhythm built
+(daily-note -> weekly-report -> janitor) - design-complete for v1, now waiting on
+First Light (the first run against real files).
+
 ### Added
+- **`orbit-janitor` skill — the weekly nag.** A read-only sweep of five signals (inbox
+  age, exact-duplicate waste, structure lint, stale waypoint manifests / missing index,
+  big+stale cleanup candidates) filed as a day-dated chore record in `10-daily/YYYY/MM/`
+  so tree health lands next to the daily notes. Verdict per check (OK/WARN/ACT) and every
+  finding routes to the skill that fixes it - the janitor diagnoses, never treats: it
+  moves and deletes nothing (md5-inventory-verified by its gate). Walled by the seventh
+  gate `tests/check_janitor.py` + `tests/fixture-janitor/` (self-driving, pinned clocks);
+  PASS + FAIL-on-planted-violations verified.
 - **Daily loop (`notes` domain)** — the habit-forming half of "work OS".
   `.gravity/notes/SPEC.md` contracts the note shape (four load-bearing sections),
   the carry-forward rule (unfinished In-progress bullets follow you to today's note,
