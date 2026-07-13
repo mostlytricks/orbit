@@ -18,7 +18,9 @@ stdlib only, ASCII console (cp949 safe). Read-only - signals and manifests, no p
 
 import html
 import json
+import os
 import sys
+import time
 import webbrowser
 from datetime import datetime
 from pathlib import Path
@@ -59,21 +61,48 @@ def parse_manifest(p: Path):
 
 
 def dir_stats(d: Path):
-    """(bytes, files, newest_payload_mtime, deeper_manifest_paths) - one pass."""
-    total, count, newest, deeper = 0, 0, 0.0, []
-    for p in d.rglob("*"):
-        if p.is_file():
-            if p.name == "_waypoint.md":
-                if p.parent != d:
-                    deeper.append(p.parent)
-                continue
-            if p.name == ".gitkeep":
-                continue
-            st = p.stat()
-            total += st.st_size
-            count += 1
-            newest = max(newest, st.st_mtime)
-    return total, count, newest, deeper
+    """(bytes, files, newest_payload_mtime, deeper_manifest_paths) - one pass.
+
+    Iterative os.scandir, not rglob+stat: DirEntry.stat() is served from the
+    directory read on Windows (no per-file syscall, no per-file AV hook), which
+    is the difference between seconds and minutes on a 40k-file directory.
+    """
+    total, count, newest = 0, 0, 0.0
+    deeper = []
+    top = str(d)
+    stack = [top]
+    while stack:
+        cur = stack.pop()
+        try:
+            entries = os.scandir(cur)
+        except OSError:
+            continue
+        with entries:
+            for e in entries:
+                try:
+                    if e.is_dir(follow_symlinks=False):
+                        stack.append(e.path)
+                        continue
+                    if e.name == "_waypoint.md":
+                        if cur != top:
+                            deeper.append(Path(cur))
+                        continue
+                    if e.name == ".gitkeep":
+                        continue
+                    st = e.stat(follow_symlinks=False)
+                except OSError:
+                    continue
+                total += st.st_size
+                count += 1
+                if st.st_mtime > newest:
+                    newest = st.st_mtime
+    # a dir with several manifests deeper down appears once per manifest dir
+    seen, uniq = set(), []
+    for p in deeper:
+        if p not in seen:
+            seen.add(p)
+            uniq.append(p)
+    return total, count, newest, uniq
 
 
 def block_state(d: Path, size, files, newest, deeper):
@@ -94,6 +123,7 @@ def collect(root: Path):
     for d in sorted(root.iterdir()):
         if not (d.is_dir() and d.name[:1].isdigit()):
             continue
+        t0 = time.perf_counter()
         blocks = []
         loose_bytes, loose_files = 0, 0
         for child in sorted(d.iterdir()):
@@ -116,6 +146,8 @@ def collect(root: Path):
         areas.append({"name": d.name, "blocks": blocks,
                       "bytes": sum(b["bytes"] for b in blocks),
                       "files": sum(b["files"] for b in blocks)})
+        n = areas[-1]["files"]
+        print(f"scanned {d.name}: {n:,} files in {time.perf_counter() - t0:.1f}s")
     return areas
 
 

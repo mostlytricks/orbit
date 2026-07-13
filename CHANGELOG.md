@@ -7,6 +7,16 @@ is separate and lives in `CLAUDE.md`.
 
 ## [Unreleased]
 
+### Fixed
+- **First-Light finding: 40k-file directories made the scanners crawl.** All three
+  tree-walkers (`memory-map`, `orbit-janitor`, `orbit-dashboard`) now use an iterative
+  `os.scandir` walk instead of `rglob` + per-file `stat()` - `DirEntry.stat()` is served
+  from the directory read on Windows (no per-file syscall, no per-file AV hook), turning
+  minutes into seconds (40k files: 0.2s here). The memory map also prints per-area scan
+  progress so a big sweep never looks hung. Bonus: the dashboard's duplicate panel now
+  caps the paths shown per group (6 + "and N more") instead of printing every copy into
+  the page.
+
 ### Added
 - **`memory-map` skill — the waypoint domain's face.** One self-contained page that
   colors the tree by *memory*, not just mass: curated-and-fresh tiles lit with their
