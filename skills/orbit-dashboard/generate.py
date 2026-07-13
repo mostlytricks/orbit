@@ -12,6 +12,7 @@ ASCII-only (Korean-Windows consoles default to cp949).
 """
 
 import hashlib
+import os
 import html
 import subprocess
 import sys
@@ -41,14 +42,32 @@ def human(n: float) -> str:
 
 
 def collect(root: Path):
-    """One stat() pass: [(path, size, mtime, area)] for files in the areas."""
+    """One pass over the areas via os.scandir - DirEntry.stat() is free on Windows
+    (served from the directory read; no per-file syscall or AV hook), which keeps
+    40k-file directories at seconds, not minutes."""
     rows = []
     for d in sorted(root.iterdir()):
         if d.is_dir() and d.name[:1].isdigit():
-            for p in d.rglob("*"):
-                if p.is_file() and p.name != ".gitkeep":
-                    st = p.stat()
-                    rows.append((p, st.st_size, st.st_mtime, d.name))
+            area = d.name
+            stack = [str(d)]
+            while stack:
+                cur = stack.pop()
+                try:
+                    entries = os.scandir(cur)
+                except OSError:
+                    continue
+                with entries:
+                    for e in entries:
+                        try:
+                            if e.is_dir(follow_symlinks=False):
+                                stack.append(e.path)
+                                continue
+                            if e.name == ".gitkeep":
+                                continue
+                            st = e.stat(follow_symlinks=False)
+                        except OSError:
+                            continue
+                        rows.append((Path(e.path), st.st_size, st.st_mtime, area))
     return rows
 
 
@@ -155,7 +174,10 @@ def main() -> int:
             return '<p class="dim empty">no exact duplicates found</p>'
         out_ = []
         for size, ps in dupes[:8]:
-            paths = "<br>".join(esc(p.relative_to(root).as_posix()) for p in ps)
+            shown = ps[:6]
+            paths = "<br>".join(esc(p.relative_to(root).as_posix()) for p in shown)
+            if len(ps) > len(shown):
+                paths += f"<br>&hellip; and {len(ps) - len(shown):,} more copies"
             out_.append(f'<div class="dgroup"><span class="tag warn">{len(ps)}x · {human(size)}</span>'
                         f'<div class="mono dim dpaths">{paths}</div></div>')
         return "\n".join(out_)
