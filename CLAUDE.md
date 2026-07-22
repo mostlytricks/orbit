@@ -4,7 +4,7 @@
 
 > **alias:** `orbit`
 
-> **gravity: v1.8** · _the version of the workspace gravity system this project adopted (root `VERSION` / `CHANGELOG.md`)._
+> **gravity: v2.10** · _the version of the workspace gravity system this project adopted (root `VERSION` / `CHANGELOG.md`)._
 
 > **Docs live in `.gravity/`.** This `CLAUDE.md` (identity, *how*) and `CONTEXT.md` (*now*) stay at the root and auto-load. Everything else is organized by subject domain under `.gravity/` — deliberately, because **orbit's root IS the product**: the top layer must show the areas, not a doc pile. One concern, one home — link, don't restate.
 

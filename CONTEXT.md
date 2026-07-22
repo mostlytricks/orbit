@@ -15,7 +15,6 @@ Last touched: 2026-07-12
 - **Status review + identity razor (2026-07-12)** — verdict: *design-complete for v1, unproven on real files* (fixtures only; Deck never launched; 0 remote tags; fat `[Unreleased]`). Identity sharpened in CLAUDE.md: directory = database, agents = labor, walls = honesty; apps are viewers, contracts the product. Queue rebuilt around **First Light** → daily loop → janitor/cockpit; content-index, pre-usage theming, Tauri cut (razor). 
 - **Deck celestial theme (PR #4, merged)** — burning-comet wordmark, CSS starfield, meteor burnout on observed removals + touchdown glow + inbox badge shockwave (scan-diff driven; Deck still never deletes; reduced-motion respected; smoke-tested).
 - **Orbit Deck v1 (PR #3, merged)** — Electron shell: live area explorer (fs-watch), embedded `orbit-dashboard`, agent chat via `claude -p` stream-json (session resume, permission modes, tool-call timeline). Electron-free smoke test; Windows portable zip builds on CI (`build-orbit-deck`).
-- **`file-find` + `locate` seam (PR #2, merged)** — two-layer retrieval: cheap index routing (locate) + file-level deep pass with miss diagnosis (file-find), walled by `check_find.py`.
 
 ## Current State
 - The design instance lives here (no corporate data); the populated instance will live on the work machine (structure by copy, skills via astra later). All scripts are stdlib-only so they run at work too.
