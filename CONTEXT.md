@@ -6,15 +6,14 @@
      reality, Next Step = one item. Trim when Completed > ~6 bullets or file > ~80 lines.
      See workspace CLAUDE.md §6 "Keeping CONTEXT.md small". -->
 
-Last touched: 2026-07-12
+Last touched: 2026-07-22
 
 ## Completed
+- **AGENTS.md hand-merge (2026-07-22, workspace-side)** — the v2.6.1 reading-protocol shim header merged above the 11-skill Codex discovery table (template sections verbatim so future `/sync-gravity` diffs stay clean; the table untouched). Rode the gravity v2.10 stamp sync of 2026-07-20.
 - **`memory-map` (the waypoint domain's face)** — depth-2 tiles colored by memory state (lit/stale/partial/dark/neutral), coverage KPI, dark-territory click-cards with manifest skeletons; verified five-state + click-cards in Chromium; absorbed both waypoint-dashboard slices. Eleven skills.
 - **`orbit-janitor` (the weekly nag)** — five-check read-only sweep → day-dated chore report in `10-daily/`; verdicts OK/WARN/ACT, findings route to their owning skills; seventh wall `check_janitor.py` (self-driving; read-only proven by md5 inventory); PASS + FAIL-on-planted verified. Ten skills, seven walls.
 - **Daily loop (notes domain, PR #6-in-#5)** — `.gravity/notes/SPEC.md` (four load-bearing sections, single-`(carried)` forward, never-overwrite, weekly assembly rules) + `daily-note` (`new_note.py`) + `weekly-report` (`generate.py`: done-by-day, dated decisions, carried, mtime-window per-area activity, sources cited) + the **sixth wall** `tests/check_notes.py` on `fixture-notes/` (self-driving, pinned week 2026-W24); PASS + FAIL-on-planted-violations verified. Nine skills, six walls, three domains.
-- **Status review + identity razor (2026-07-12)** — verdict: *design-complete for v1, unproven on real files* (fixtures only; Deck never launched; 0 remote tags; fat `[Unreleased]`). Identity sharpened in CLAUDE.md: directory = database, agents = labor, walls = honesty; apps are viewers, contracts the product. Queue rebuilt around **First Light** → daily loop → janitor/cockpit; content-index, pre-usage theming, Tauri cut (razor). 
-- **Deck celestial theme (PR #4, merged)** — burning-comet wordmark, CSS starfield, meteor burnout on observed removals + touchdown glow + inbox badge shockwave (scan-diff driven; Deck still never deletes; reduced-motion respected; smoke-tested).
-- **Orbit Deck v1 (PR #3, merged)** — Electron shell: live area explorer (fs-watch), embedded `orbit-dashboard`, agent chat via `claude -p` stream-json (session resume, permission modes, tool-call timeline). Electron-free smoke test; Windows portable zip builds on CI (`build-orbit-deck`).
+- **Status review + identity razor (2026-07-12)** — verdict: *design-complete for v1, unproven on real files* (fixtures only; Deck never launched; 0 remote tags; fat `[Unreleased]`). Identity sharpened in CLAUDE.md: directory = database, agents = labor, walls = honesty; apps are viewers, contracts the product. Queue rebuilt around **First Light** → daily loop → janitor/cockpit; content-index, pre-usage theming, Tauri cut (razor).
 
 ## Current State
 - The design instance lives here (no corporate data); the populated instance will live on the work machine (structure by copy, skills via astra later). All scripts are stdlib-only so they run at work too.
